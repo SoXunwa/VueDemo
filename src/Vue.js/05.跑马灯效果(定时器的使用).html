@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>05.跑马灯效果</title>
+    <script src="../lib/vue.js"/>
+    <script type="text/css">
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </script>
+</head>
+<body>
+<div id="app_divsion">
+    <input type="button" value="启动定时器" v-on:click="start">
+    <input type="button" value="停止定时器" v-on:click="stop">
+    <h4>{{ msg }}</h4>
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app_divsion',
+        data: {
+            msg: '别乱来，呀呀呀!!!!',
+            warn: 'Suxuanhua Demo',
+            intervalObject: null // 在data 上定义变量，用于存储start方法返回的定时器对象，方便停止定时器。
+        },
+        methods: {
+            //methods (ES6风格)
+            start() {
+                //输出获取到的数据
+                console.log(this.msg);
+                //切割字符串 制作跑马灯效果
+                //获取第一个字符
+                //var start = this.msg.substring(0,1);
+                //获取后面所有字符串
+                //var end = this.msg.substring(1);
+                //重新拼接成新的字符串，并重新赋值给 this.msg
+                //this.msg = end + start;
+
+                //注意：Vue 实例 会监听自己对象内的data 中所有数据的改变，
+                //只要data数据发生变化，就会自动把最新的data数据，同步更新到页面上，
+                //不需要考虑如何重新渲染 DOM 页面
+
+                //重复多次调用start() intervalObject 会存着多个setInterval() 返回 interval对象，造成错误，
+                //因为 js 是弱类型，data 中的 intervalObject 没有声明是什么类型的 变量，所以多次调用会将 intervalObject 变成一个数组。
+                if (this.intervalObject != null) return;
+
+                //this 指向问题解决办法 2
+                //es 6 解决办法 ，去掉function ，
+                //添加 =>，用途：内部 this 指向外部 this，可以让 内部的this 永远和外部的this 保持一致
+                this.intervalObject = setInterval(() => {
+                        console.log(this.msg);
+                        //let 与 var 的区别 ： let 只在当前的代码块有效，相当于局部变量
+                        let start = this.msg.substring(0, 1);
+                        let end = this.msg.substring(1);
+                        this.msg = end + start;
+                    },
+                    400) //毫秒
+            },
+            stop() {
+                //清楚定时器
+                clearInterval(this.intervalObject);
+                //清楚定时器之后，设置为null，否则 start 方法无法重新开启定时器
+                this.intervalObject = null;
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>v-for指令的四种使用方式</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <!--
+        v-for 指令
+        四种用法：
+        1.迭代普通数组
+        2.迭代对象数组 中的属性
+        3.迭代对象
+        4.迭代数字
+    -->
+    <!--1.迭代数组，item 和 list 是变量名，可根据需求改变 -->
+    <p v-for="item in list">{{item}}</p>
+    <p v-for="(item,i) in list">索引值：{{i}} ----- 对应的值：{{item}}</p>
+
+    <!--2.迭代对象数组中的对象属性-->
+    <p v-for="userObject in objectList">id:{{userObject.id}}--------name:{{userObject.name}}</p>
+    <p v-for="(userObject,i) in objectList">索引值：{{i}}---id:{{userObject.id}}--------name:{{userObject.name}}</p>
+
+
+    <!--3.迭代对象，val、 key 和 user 是变量名，可变。
+        除了有 val key，还有 索引值，
+        (val,key,i) 是根据顺序来的，（值，键，索引值）
+        -->
+    <p v-for="(val,key) in user">值：{{val}} --- 键{{key}}</p>
+    <p v-for="(val,key,i) in user">索引值：{{i}}----值：{{val}} --- 键{{key}}</p>
+
+    <!--4.迭代数字，count 是变量名，
+    起始是数 1 -->
+    <p v-for="count in 10">这是第{{count}} 次循环</p>
+</div>
+
+<script>
+    var vm = new Vue({
+
+        el: '#app_division',
+
+        data: {
+            //1.数组
+            list: [1, 2, 3],
+            //2.对象数组
+            objectList: [
+                {id: 1, name: 'suxuanhua'},
+                {id: 2, name: 'gagaSu'},
+                {id: 3, name: 'hahaSu'}
+            ],
+            //3.对象
+            user: {
+                id: 10000,
+                name: '托尼 · 斯达克',
+                gender: '男'
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>计算器</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <input type="number" v-model:value="num1">
+    <!-- v-model:value 默认选中，选择option 时，会更改 opt 的值，因为双向绑定了  -->
+    <select v-model:value="opt">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="×">×</option>
+        <option value="÷">÷</option>
+    </select>
+    <input type="number" v-model:value="num2">
+    <!-- 给 = 号按钮添加点击事件，-->
+    <input type="button" value="=" v-on:click="sum">
+    <input type="number" readonly v-model:value="result">
+    <input type="reset" value="清空" v-on:click="clean">
+
+</div>
+
+<script>
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            //默认值，在加载页面完成，默认会渲染一遍。
+            //先渲染一遍HTML，当执行到 js 的时候，再用js 的数据重新覆盖数据。
+            num1: 0,
+            num2: 0,
+            result: 0,
+            //select 默认选中 +
+            opt: '+'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sum() {
+                //判断 opt ，根据opt 执行相应的计算
+                switch (this.opt) {
+                    case '+':
+                        //计算之前，先转型
+                        this.result = parseInt(this.num1) + parseInt(this.num2);
+                        break;
+                    case '-':
+                        this.result = parseInt(this.num1) - parseInt(this.num2);
+                        break;
+                    case '×':
+                        this.result = parseInt(this.num1) * parseInt(this.num2);
+                        break;
+                    case '÷':
+                        if (this.num2 != 0) {
+                            this.result = parseInt(this.num1) / parseInt(this.num2);
+                        } else {
+                            alert('不能除 0');
+                        }
+                        break;
+                }
+            },
+            clean() {
+                this.num1 = 0;
+                this.num2 = 0;
+                this.result = 0;
+            }
+        }
+    });
+</script>
+</body>
+</html>

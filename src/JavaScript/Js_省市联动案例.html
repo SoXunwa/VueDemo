@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<select id="country" onchange="add1(this.value);">
+    <option value="0">--请选择--</option>
+    <option value="中国">中国</option>
+    <option value="美国">美国</option>
+    <option value="德国">德国</option>
+    <option value="日本">日本</option>
+</select>
+<select id="city">
+
+</select>
+</body>
+<script type="text/javascript">
+    var arr = new Array(4);
+    arr[0] = ["中国", "南京", "抚州", "临洮", "日喀则", "哈密"];
+    arr[1] = ["美国", "华盛顿", "底特律"];
+    arr[2] = ["德国", "慕尼黑", "柏林"];
+    arr[3] = ["日本", "东京", "北海道"];
+
+    function add1(val) {
+
+        //0.获得ID = "city" 的select
+        var city = document.getElementById("city");
+        //清空id 为city的select；避免出现追加效果
+        //得到id 为city的select 中的option
+        var options_Arr = city.getElementsByTagName("option");
+        //通过遍历该返回的集合数组，来判断里面是否存在内容，如果存在则删除。
+        for (var m = 0; m < options_Arr.length; m++) {
+            //得到数组里面的每一个option;
+            var op = options_Arr[m];
+            //判断是否存在，存在则删除。不能自己删除自己，只能通过其父节点删除。
+            city.removeChild(op);
+            //避免删除不干净，像”Js_两个下拉选择框_互相移动“ 中的代码原理一样
+            m--;//保证m 一直为0；
+        }
+
+        //----------------------------------------
+        //1.遍历二维数组
+        for (var i = 0; i < arr.length; i++) {
+            //2.得到一个一维数组
+            var arr1 = arr[i];
+            //得到遍历之后的数组的第一个值
+            var firstvalue = arr1[0];
+            //3.拿到数组中的第一个值和传递过来的值作比较
+            if (firstvalue == val) {
+                //4.如果相同，获取除第一个值后面的元素
+                for (var j = 1; j < arr1.length; j++) {
+                    var value = arr1[j];
+                    //创建option（因为获取到的值只是文本内容，不包含标签）
+                    var option = document.createElement("option");
+                    //创建文本（因为获取到的只是值，只js中有效，要想在HTML中显示，还要创建）
+                    var text = document.createTextNode(value);
+                    //把文本添加到option 中
+                    option.appendChild(text);
+                    //6.添加将值添加到ID = "city" 的select：appendChild();
+                    city.appendChild(option);
+                    //产生的问题：每次使用 appendChild 将option添加到id 为city的select 时，会产生追加效果。
+                    // 所以每次被选择时，要先清空原来存在的内容。看27行。
+                }
+            }
+        }
+    }
+</script>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--
+a.获取当前时间:var da = new Date(); var ddd = da.toLocaleString();
+b.让页面每一秒获取一次时间(实现动态时间)：setInterval();
+c.显示到页面上，每一秒向div 里面写入一次时间:innerHTML
+-->
+<body>
+<div id="times"></div>
+<script type="text/javascript">
+    function getDate() {
+        //获取当前时间
+        var date = new Date();
+        //格式化获取到的时间（根据本地时间格式）
+        var dadd = date.toLocaleString();
+        //获取div
+        var div = document.getElementById("times");
+        //向指定div写入内容（显示到页面上）
+        div.innerHTML = dadd
+    }
+
+    //使用定时器，实现每一秒写一次时间
+    setInterval("getDate();", 1000);
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--
+需求：页面有四个复选框、一个全选复选框
+     三个按钮：全选、全不选、反选
+-->
+<body>
+<input type="checkbox" id="Choice_box" onclick="sel_All_or_No();">全选/全不选
+<br/>
+<input type="checkbox" name="love"/>篮球
+<input type="checkbox" name="love"/>排球
+<input type="checkbox" name="love"/>羽毛球
+<input type="checkbox" name="love"/>乒乓球
+<br/>
+<input type="button" value="全选" onclick="sel_All();">
+<input type="button" value="全不选" onclick="sel_NotAll();">
+<input type="button" value="反选" onclick="sel_Other();">
+
+<script type="text/javascript">
+    //实现全选操作
+    function sel_All() {
+        //1.获取要操作的复选框 -getElementByName():返回值是数组
+        var loves = document.getElementsByName("love");
+        /*2.返回是数组 -属性checked 判断复选框是否被选中：true/false。
+            遍历数组，得到一个独立的checkbox，把每一个checkbox = true;
+         */
+        for (var i = 0; i < loves.length; i++) {
+            var love = loves[i];//得到数组中的一个复选框
+            love.checked = true;//把每一个checkbox = true;
+        }
+    }
+
+    //实现全不选的操作（同上）
+    function sel_NotAll() {
+        var loves = document.getElementsByName("love");
+        for (var i = 0; i < loves.length; i++) {
+            var love = loves[i];//得到数组中的一个复选框
+            love.checked = false;//把每一个checkbox = true;
+        }
+    }
+
+    //实现反选的操作（和当前选择状态相反）
+    function sel_Other() {
+        //1.先获取到要操作的复选框，返回值是数组
+        var loves = document.getElementsByName("love");
+        //2.遍历数组，得到数组中的一个复选框
+        for (var a = 0; a < loves.length; a++) {
+            var love = loves[a];
+            //3.判断当前的复选框是选中还是不选中。
+            //4.如果选中，则取消选择；如果没被选中（设置为false），则选中（设置为true）。
+            if (love.checked == true) {
+                love.checked = false;//一个等号是赋值，两个等号是判断
+            }
+            else {
+                love.checked = true;
+            }
+        }
+    }
+
+    //实现全选/全不选
+    function sel_All_or_No() {
+        //1.得到要被操作（点击）的复选框
+        var selecte_All_or_No = document.getElementById("Choice_box");
+        //2.判断是否被选中
+        if (selecte_All_or_No.checked == true) {
+            sel_All();
+        } else {
+            sel_NotAll();
+        }
+        //3.如果选中，则全部选中，否则，全不选；
+    }
+</script>
+</body>
+</html>

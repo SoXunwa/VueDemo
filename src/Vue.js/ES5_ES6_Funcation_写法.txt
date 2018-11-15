@@ -1,0 +1,16 @@
+ES5:
+    方法名: function(){
+        //do something
+    }
+
+    show: function () {
+        alert('按钮被点击了');
+    }
+ES6:
+    方法名(){
+        //do something
+    }
+
+    show () {
+        alert('按钮被点击了');
+    }

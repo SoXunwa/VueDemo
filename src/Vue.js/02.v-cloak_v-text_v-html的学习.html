@@ -1,0 +1,70 @@
+<!--
+    v-cloak 指令的用途：
+        当页面再比较慢的网速下加载页面的时候（比如3G），
+        在没有加载完成 vue.js 文件时，
+        <p>{{ message }}</p> 会直接再页面上显示成 {{ message }}，
+        为了避免这种情况发生，可以给 该标签 添加 v-cloak，再设置 v-cloak 的css 样式，
+            使其不在页面 显示 vue 输出语句{{ message }}。
+
+    v-text 指令的用途：
+        可以代替 插值表达式 （ vue 输出语句{{ message }} ），
+        并避免它的问题。
+        缺点：在页面加载完成（加载完vue.js）之后，会覆盖掉 使用该指令 的 标签内的值
+
+    v-html 指令的用途：
+        用于渲染 html 标签，比如 <h2>xxxxxxx </h2>，
+        使用 v-cloak 和 v-text 只会将其以普通文本的方式输出，不会渲染成HTML标签，
+        v-html 就是解决该问题的。
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>02.v-cloak的学习</title>
+    <script src="../lib/vue.js"/>
+    <!-- css 样式-->
+    <script type="text/css">
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </script>
+
+    <!-- vue v-cloak 指令 样式 -->
+    <style>
+        /*  [ ] 是属性选择器  */
+        [v-cloak] {
+            /* 只要使用了 v-cloak 属性的 标签元素，默认不都不显示，当页面加载完成之后，该样式会被vue 移除 */
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <!-- 使用 v-cloak 能够解决 插值表达式闪烁的问题（前面描述v-cloak 的用途）-->
+    <p v-cloak>你好，我是{{ message }}</p>
+
+
+    <!-- 使用  v-text 代替默认插值表达式{{ message }}，可以避免闪烁问题，
+    但是 message 携带的数据，覆盖掉hahah ...-->
+    <p v-text="message">你好，我是 hahahhahahahahha ...</p>
+
+
+    <!--使用 v-html 输出 html 标签-->
+    <p v-html="msg222"></p>
+
+</div>
+
+<script>
+    //创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: '苏宣华',
+            msg222: '<h2>xxxxxxxxxxxxx </h2>'
+        }
+    });
+</script>
+</body>
+</html>

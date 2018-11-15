@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--
+两个下拉选择框:设置属性 multiple（令这卷动选单容许多重选择。）
+四个按钮，有事件。
+
+更多详情：查看API HTMLhelp >表单标记
+-->
+<body>
+<!--<select >默认是下拉菜单-->
+<select id="select1" multiple="multiple" style="width: 100px;height: 100px"><!--滚动栏方式-->
+    <option>AAAAA</option>
+    <option>BBBBB</option>
+    <option>CCCCC</option>
+    <option>DDDDD</option>
+    <option>EEEEE</option>
+</select>
+<input type="button" value="选中添加到右边" onclick="selectToRight();">
+<input type="button" value="全部添加到右边" onclick="AllSelectToRight();">
+<select id="select2" multiple="multiple" style="width: 100px;height: 100px">
+    <option>QQQQQ</option>
+</select>
+
+<input type="button" value="选中添加到左边" onclick="selectToLeft();">
+<input type="button" value="全部添加到左边" onclick="AllSelectToLeft();">
+不要注重界面，在乎实现功能
+<script type="text/javascript">
+    //实现选中添加到右边
+    function selectToRight() {
+        //1.获取select1 中所有子标签<option>：getElementsByTagName();返回值数组
+        var select1 = document.getElementById("select1");//获取指定标签
+        var option_Arr = select1.getElementsByTagName("option");//获取指定标签的子标签
+        //2.获取到目的select2 对象
+        var select2 = document.getElementById("select2");
+
+        //3.遍历数组，判断是否被选中：selected=true/false;
+        //以下方法存在的问题：每次循环option_Arr.length 减一，i+1，两个值同时在变化。
+        //  比如：当循环到i=3，option_Arr.length=3时，for循环就不执行了，造成了选择多个标签添加到右边时，只有一部分添加过去。
+        //  所以要让 i 一直都等于 0 ，option_Arr.length在变化。
+        for (var i = 0; i < option_Arr.length; i++) {
+            var is_Selected = option_Arr[i];
+            if (is_Selected.selected == true) {
+                //将选中的添加到右边去：
+                //4.添加选中的部分：appendChild();//类似剪切黏贴操作
+                select2.appendChild(is_Selected);
+                i--;//让 i 一直都等于 0 ，option_Arr.length再变化。解决多选只有部分被添加的问题。
+            }
+        }
+
+    }
+
+    //实现全部添加到右边
+    function AllSelectToRight() {
+        //1.获取左边select 下面的option 对象
+        var select1 = document.getElementById("select1");//获取指定标签
+        var option_Arr = select1.getElementsByTagName("option");//获取指定标签的子标签,返回值：数组
+        //2.获取到目的select2 对象
+        var select2 = document.getElementById("select2");
+        //3.将返回的数组集合进行遍历
+        for (var i = 0; i < option_Arr.length; i++) {
+            //4.得到每一个option 对象
+            //4.将select1 的内容添加到 select2下面
+            select2.appendChild(option_Arr[i]);
+            i--;//问题同上，让 i 一直都等于 0 ，option_Arr.length再变化。解决多选只有部分被添加的问题。
+        }
+    }
+
+    //实现右边选中内容添加到左边
+    //实现全部内容添加到左边
+    //同上，将select1 变成 select2。
+</script>
+</body>
+</html>

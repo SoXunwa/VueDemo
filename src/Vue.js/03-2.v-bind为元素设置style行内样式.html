@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <!-- 方式1.直接在html 上使用对象
+        对象是无需键值对的集合，如果属性中带有"-",需要添加字符串，否则可省-->
+    <h1 v-bind:style="{color:'red','font-weight':200}">{{ msg }}</h1>
+
+    <!--方式2.将对象放到data 中-->
+    <h1 v-bind:style="classObject">{{ msg }}</h1>
+
+
+    <!--方式3，数组的方式
+        使用多个在data 中的对象-->
+    <h1 v-bind:style="[classObject,classObject2]">{{ msg }}</h1>
+
+
+    <h4>{{ author }}</h4>
+</div>
+
+<script>
+    var vm = new Vue({
+
+        el: '#app_division',
+
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2018/11/14',
+
+            //对象的属性名可带引号、也可不带引号
+            //可以通过 js 修改对象中属性的值，去控制要不要使用该样式
+            //如果属性中带有"-",需要添加字符串，否则可省
+            classObject: {color: 'red', 'font-weight': 200},
+            classObject2: {'background-color': 'greenyellow'}
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

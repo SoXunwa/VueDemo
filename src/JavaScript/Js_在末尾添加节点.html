@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!--
+需求：在 ul li 后面添加一个li
+    1.获取到ul 标签: var ul2 = getElementById("xxxx");
+    2.创建li 标签:var li2 = document.createElement("标签名称");
+    3.创建文本:var text2 = document.createTextNode("文本内容");
+    4.把文本添加到li 下面:li2.appendChild(text2);
+    5.把li 添加到 ul 末尾:ul.appendChild(li2);
+-->
+<body>
+<ul id="ulid">
+    <li>1111</li>
+    <li>2222</li>
+    <li>3333</li>
+    <li>4444</li>
+</ul>
+<br/>
+<!--按钮-->
+<input type="button" value="add" onclick="add();"/>
+<!--js 代码-->
+<script type="text/javascript">
+    //在末尾添加节点
+    function add() {
+        //通过id 获取ul标签
+        var ul = document.getElementById("ulid");
+        //创建要添加的标签
+        var li2 = document.createElement("li");
+        //创建文本
+        var text2 = document.createTextNode("5555");
+        //把文本加入到li 下面
+        li2.appendChild(text2);
+        //把li 加入到 ul 下面
+        ul.appendChild(li2);
+    }
+</script>
+</body>
+</html>

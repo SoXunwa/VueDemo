@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>04-1.v-on_事件绑定属性（修饰符）</title>
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+
+        .inner {
+            height: 150px;
+            background-color: darkcyan;
+        }
+    </style>
+</head>
+<!--
+    .stop 阻止冒泡，阻止全部。
+    .prevent 阻止默认行为。
+    .capture 添加事件监听器，使用事件捕获模式。
+    .self 只有当事件在该元素本身（比如：不是子元素）触发时，触发回调。能阻止冒泡，但是只阻止本身不被冒泡执行。
+    .once 事件只触发一次
+-->
+<body>
+<div id="app_division">
+    <!--示例：.stop 阻止冒泡
+        冒泡机制（弊端，当button 被点击之后，btnClick 和 divCilick 都会被调用执行），
+        为了阻止这样的事情发生，vue 提供 .stop 阻止冒泡 事件属性（修饰符）
+        使用方法：v-on:xxx事件.stop
+    -->
+    <!--给div 绑定事件-->
+    <div class="inner" v-on:click="divCilick">
+        <!--给button 绑定事件，未使用 .stop 阻止冒泡-->
+        <input type="button" value="冒泡" v-on:click="btnClick">
+
+        <!--给button 绑定事件，使用了 .stop 阻止冒泡-->
+        <input type="button" value="阻止冒泡示例" v-on:click.stop="btnClick">
+    </div>
+
+
+    <!--示例：.prevent 阻止链接默认行为
+        链接默认被点击后会跳转，可以使用prevent 属性 阻止链接发生跳转
+    -->
+    <!--未使用prevent 属性 阻止链接发生跳转-->
+    <a href="https://www.baidu.com/" v-on:click="linkClick">有问题，先去百度[不阻止跳转]</a>
+    <br/>
+    <!--使用了prevent 属性 阻止链接发生跳转-->
+    <a href="https://www.baidu.com/" v-on:click.prevent="linkClick">有问题，先去百度[阻止跳转]</a>
+
+
+    <!--示例：.capture 添加事件监听器，使用事件捕获模式。
+        以下代码会通过默认的冒泡机制，会先执行 btnClick() 再执行 divCilick()，
+        当给 divCilick() 的 v-on 添加 .capture 事件属性修饰符后，
+        会先执行 divCilick()，再执行 btnClick()
+    -->
+    <div class="inner" v-on:click.capture="divCilick">
+        <input type="button" value="capture示例" v-on:click="btnClick">
+    </div>
+
+
+    <!--示例：.self 只有当事件在该元素本身（比如：不是子元素）触发时，触发回调。能阻止冒泡，但是只阻止本身不被冒泡执行。
+
+        以下代码会通过默认的冒泡机制，会先执行 btnClick() 再执行 divCilick()，
+        可以通过给 divCilick() 的 v-on 添加 .self 事件属性修饰符，
+        让 divCilick()，只要在 <div class="inner"> 受到点击是才会被执行。
+    -->
+    <div class="inner" v-on:click.self="divCilick">
+        <input type="button" value="self示例" v-on:click="btnClick">
+    </div>
+
+
+    <!--示例：.once 事件只触发一次
+        事件只会被执行一次（页面刷新后重置）
+        v-on:click.prevent.once：prevent（阻止默认行为） 只会被执行一次，.prevent和.once位置调换不影响
+    -->
+    <a href="https://www.baidu.com/" v-on:click.prevent.once="linkClick">测试.once事件只会被执行一次</a>
+
+</div>
+<script>
+    let vm = new Vue({
+        el: '#app_division',
+        data: {},
+        methods: {
+            divCilick() {
+                console.log('触发了 inner div 的点击事件');
+            },
+            btnClick() {
+                console.log('触发了 btn 的点击事件 ');
+            },
+            linkClick() {
+                console.log('触发了 linkClick 链接默认跳转事件')
+            }
+        }
+    });
+</script>
+</body>
+</html>

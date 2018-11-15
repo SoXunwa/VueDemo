@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<!--
+api 位置：JavaScript > 完整的 HTML DOM 对象参考手册（包含实例）> HTML DOM Element 对象\DOM Element
+element 对象：元素对象。var ul2 = document.getElementById("ulid");
+     元素对象：ul2。
+
+     主要说明元素对象的一些方法。
+-->
+<body>
+<ul id="ulid">
+    <li>AAAAA</li>
+    <li>BBBBB</li>
+    <li>CCCCC</li>
+    <li>DDDDD</li>
+</ul>
+
+<input type="text" name="namexxx" id="input2id" value="aaaaaa"/>
+<script type="text/javascript">
+    var inputXX = document.getElementById("input2id");
+    //更多详细解释看api
+    //使用element /getAttribute();获取指定属性的值，没有该属性时，为null
+    alert(inputXX.getAttribute("class"));
+    //给inputXX 对应的对象input2id 设置属性class，并赋值为 haha
+    inputXX.setAttribute("class", "haha");
+    alert(inputXX.getAttribute("class"));
+    //删除对象中的属性；注意无法删除 value。
+    inputXX.removeAttribute("namexxx");
+
+    //---------------------------------------------
+    //获取 ul 下面的所有子标签（子元素）
+    //1.获取ul 标签
+    var ul22 = document.getElementById("ulid");
+    //2.获取ul 下面的子标签
+    //var lis = ul22.childNodes;//该属性浏览器兼容性差。每个浏览器统计的长度不一样。
+    //唯一有效的方法是：getElementsByTagName();返回的是集合数组。
+    var lis = ul22.getElementsByTagName("li");
+    alert(lis.length);//获取数组长度
+</script>
+</body>
+</html>

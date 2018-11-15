@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<!--
+    在 2.2.0+ 的版本里，当组件中使用 v-for 时，key 是必须存在的。
+    当Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用“就地复用”策略。
+    如果数据项的顺序被改变，Vue 将“不是移动DOM 元素来匹配数据项的顺序”，
+    而是“简单复用此处每个元素”，并且确保它在特定索引下显示已被渲染过的每个元素。
+
+    所以，为了给Vue 一个提示，“以便它能跟踪每个节点的身份，从而重用和重新排序现有元素”，
+    需要为每项提供一个唯一key 属性。
+-->
+<div id="app_division">
+    <!--上述问题复现-->
+    <div>
+        <label>
+            id:<input type="text" v-model:value="id">
+        </label>
+        <label>
+            name:<input type="text" v-model:value="name">
+        </label>
+        <input type="button" value="添加" v-on:click="add">
+    </div>
+    <p v-for="user in userList">
+        <input type="checkbox">
+        {{user.id}}......{{user.name}}
+    </p>
+
+    <!-- 存在Bug：
+         在选中checkbox 的情况下，
+         使用 list.unshift()，将新的数据添加到list 开头处时，
+         会出现 选中的checkbox位置不变，
+         checkbox 对应的信息   被新增的信息  向下顶的情况，
+         出现 原本checkbox对应的信息位置变了，原本选中的checkbox位置没变的情况。
+
+         原因：用户选中的是 数组中索引的位置，不是数组中的值，出现值变  索引不变的情况。
+              比如用户选中第3项，选中的是 userList数组中索引为3的这个位置，
+              并不是选中 userList数组中索引为3这个位置，对应的值，
+              当从  数组的开头位置  添加新的数据后，索引位置不会变，索引对应的值会变。
+
+              解决办法：将 checkbox 和 对应的值绑定在一起。
+                       要绑定在一起，就要让全部的 checkbox 都有唯一的 ID，
+                       是其不重复，
+                       所以就要使用 【key】
+
+                       代码：
+                            //因为使用key的值只能是 String/Number
+                            //所以使用user对象的id 作为 唯一标识符 key的值最合适，因为具有唯一性。
+                            //为何加 v-bind？因为 user.id 是变量，要加 v-bind 绑定解析成变量，否则会被HTML 解析成 字符串。
+                            //
+                            <p v-for="user in userList" v-bind:key="user.id">
+                                <input type="checkbox">
+                                {{user.id}}......{{user.name}}
+                            </p>
+         -->
+</div>
+
+<script>
+    //creat vue object，get ViewModel
+    var vm = new Vue({
+        el: '#app_division',
+        data: {
+            id: '',//绑定id 的input
+            name: '',//绑定name 的input
+            userList: [
+                {id: 100, name: '李斯'},
+                {id: 200, name: '嬴政'},
+                {id: 300, name: '赵高'},
+                {id: 400, name: '韩非'},
+                {id: 500, name: '荀子'}
+            ]
+        },
+        methods: {
+            add() {
+                //将信息对象添加到List中，实现增加条目的功能
+                this.userList.unshift({//unshift 添加到list 开头处，会出现bug，需要通过key 解决。
+                    //this.userList.push({//追加到List结尾处
+                    id: this.id,
+                    name: this.name
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>06.v-model_双向数据绑定</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+
+    <!--
+    只有 v-model 可以实现双向数据绑定（边修改边显示，能从 Model 绑定到 View 上，也能从 V 绑定到 M），
+    其他的都不能，
+    v-bind 只能实现单向数据绑定（从 Model 绑定到 View 上，不能从 V 绑定到 M）。
+
+    缺点：v-model 只能用在 表单元素中:
+        input(radio,text,address,email ... ) 、select 、checkbox textarea
+
+    v-bind 可以用在任何地方
+    -->
+    <input type="text" v-model:value="msg" style="width: 100%;">
+    <!-- 简写形式-->
+    <input type="text" v-model="msg" style="width: 100%;">
+
+</div>
+<script>
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2018/11/14'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2018/11/14');
+            }
+        }
+    });
+</script>
+</body>
+</html>

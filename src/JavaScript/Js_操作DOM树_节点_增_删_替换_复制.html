@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        #div1 {
+            width: 200px;
+            height: 80px;
+            border: 2px solid red;
+        }
+
+        #div2 {
+            width: 200px;
+            height: 80px;
+            border: 2px dashed rebeccapurple;
+        }
+
+        #div222 {
+            width: 200px;
+            height: 200px;
+            border: 2px solid rebeccapurple;
+        }
+
+        #div3 {
+            width: 200px;
+            height: 100px;
+            border: 2px inset rebeccapurple;
+        }
+    </style>
+</head>
+<!--
+    操作DOM树方法：
+        //没有insertAfter()方法
+        //在操作前，需要先使用：getElementById()/getElementsByName()/getElementsByTagName()
+        //找到具体的标签
+        1.appendChild();//添加子节点到末尾。类似剪切黏贴效果。
+        2.insertBefore(newNode,oldNode)();//在某个节点之前插入一个新的节点；newNode:要插入的节点，oldNode:在那个节点前插入
+                - 插入一个节点，节点不存在则创建：
+                    a.创建标签  b.创建文本  c.把文本添加到标签下面
+
+        3.removeChild();//删除节点（通过父节点对象删除，不能自己删除自己）
+        4.replaceChild(newNode,oldNode);//替换节点（通过父节点对象替换，不能自己替换自己）
+        5.cloneNode(boolean);//复制节点，为true时复制。
+                a.获取到要被复制的节点对象。
+                b.要被复制的节点对象，调用复制方法cloneNode(ture);将自己复制到变量中。
+                c.获取要被粘贴的 目的地的节点对象，调用append(),粘贴变量。
+
+-->
+<body>
+<!--appendChild();----------------------------------------->
+<!--需求：把div1 中的 ul 数据添加到 div2中-->
+<p>appendChild();</p>
+<div id="div1">
+    <ul id="ulid11">
+        <li>tom</li>
+        <li>mary</li>
+        <li>jack</li>
+    </ul>
+</div>
+<div id="div2"></div>
+<div id="div222"></div>
+<input type="button" value="add" onclick="addXX();">
+<input type="button" value="copy" onclick="cp();">
+<script type="text/javascript">
+    //剪切
+    function addXX() {
+        //1.得到要被添加的DIV
+        var div2 = document.getElementById("div2");
+        //获取要添加的元素 ul
+        var ul = document.getElementById("ulid11");
+        //div2对象通过appendChild()添加元素ul
+        div2.appendChild(ul);
+    }
+
+    //粘贴
+    function cp() {
+        //获取要被复制的元素标签 ul
+        var ul = document.getElementById("ulid11");
+        //调用复制方法，将自己复制到变量中
+        var cp_ul = ul.cloneNode(true);
+        //获取要被粘贴的 目的地的节点对象，调用append(),粘贴变量。
+        var div_end = document.getElementById("div222");
+        div_end.appendChild(cp_ul);
+    }
+</script>
+
+
+<!------------------------------------------->
+<hr/>
+<p>insertBefore(newNode,oldNode)();</p>
+<div id="div3">
+    <ul id="ulid33">
+        <li id="li1">tomxxxxxx</li>
+        <li id="li2">maryaaaaa</li>
+        <li id="li3">jackbbbbb</li>
+    </ul>
+</div>
+<input type="button" value="add" onclick="insert_li();">
+<input type="button" value="remove" onclick="re_insert();">
+<input type="button" value="replace" onclick="rep();">
+<script type="text/javascript">
+    //insertBefore(newNode,oldNode)();
+    //在<li>maryaaaa</li> 之前添加<li>suxuanhua</li>
+    function insert_li() {
+        //1.获取oldNode位置的标签 li2
+        var li2 = document.getElementById("li2");
+        //2.创建li
+        var li5 = document.createElement("li");
+        //3.创建文本
+        var tx5 = document.createTextNode("suxuanhua");
+        //4.把文本添加到li下面
+        li5.appendChild(tx5);
+        //5.获取ul
+        var ul = document.getElementById("ulid33");
+        //6.把li添加到ul 下面（在<li>maryaaaa</li> 之前添加<li>suxuanhua</li>）
+        ul.insertBefore(li5, li2);
+    }
+
+    //removeChild();
+    function re_insert() {
+        //获取要被删除节点的父节点
+        var ul = document.getElementById("ulid33");
+        //获取要被删除的节点
+        var li3 = document.getElementById("li3");
+//----------removeChild(li3);删除节点<li>jackbbbbb</li>-----------------------------------------
+        ul.removeChild(li3);
+    }
+
+    //replaceChild(newNode,oldNode);
+    function rep() {
+        //获取要被替换的节点的父节点
+        var ul = document.getElementById("ulid33");
+        //获取要被替换的节点
+        var li1 = document.getElementById("li1");
+        //2.创建li（要替换的节点）
+        var li5 = document.createElement("li");
+        //3.创建文本
+        var tx5 = document.createTextNode("replaceXXXX");
+        //4.把文本添加到li下面
+        li5.appendChild(tx5);
+        //把li5 替换li3
+        ul.replaceChild(li5, li1);
+    }
+</script>
+
+</body>
+</html>

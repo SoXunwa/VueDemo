@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--
+Node 对象属性：
+     1.nodeName
+     2.nodeType
+     3.nodeValue
+     -> 使用dom 解析html 时候，需要把html 里面的标签、属性 和 文本 封装成对象，
+     -> Node 对象三种属性，对应dom html 不同对象，可以获取到不同的值，比如nodeName->标签，nodeName->属性，nodeType->标签等等。
+
+Node 对象：
+     1.父节点：parentNode
+     2.子节点:childNodes（兼容性差）
+             firstChild:第一个子节点
+             lastChild：最后一个子节点
+     3.同辈节点:nextSibling:返回给定节点的下一个节点。（自己是节点列表的第一个，第二个就是下个节点。）
+              previousSibling:返回给定节点的上一个节点。
+     解释：<ul> --- 父节点
+              <li id="1"></li> ---对 ul 来说，li 是它的子节点。
+              <li id="2"></li> ---对 id="1" 的 li 来说，id="2" 的 li 是他的同辈节点。
+          </ul>
+-->
+<body>
+<span id="spanid">hahaha</span>
+<ul>
+    <li id="li1">AAAAAA</li>
+    <li id="li2">BBBBBB</li>
+    <li id="li3">CCCCCC</li>
+    <li id="li4">DDDDDD</li>
+</ul>
+<script type="text/javascript">
+
+    //Node对象属性示例：根据 要被获取的对象不同，结果也不同
+    //标签对象
+    var spanXXX = document.getElementById("spanid");
+    alert(spanXXX.nodeType); //1
+    alert(spanXXX.nodeValue); //SPAN
+    alert(spanXXX.nodeName); //null
+
+    //获取spanXXX对象中的属性:
+    // getAttributeNode() 返回指定的属性节点。
+    var id = spanXXX.getAttributeNode("id");
+    alert(id.nodeType);//2
+    alert(id.nodeName);//id
+    alert(id.nodeValue);//spanid
+
+    //获取spanXXX对象中的文本：
+    // firstChild 返回元素的首个子。
+    var tx = spanXXX.firstChild;
+    alert(tx.nodeType);//3
+    alert(tx.nodeName);//#text
+    alert(tx.nodeValue);//hahaha
+
+    //------------------------------------------------
+    //Node 父、子、同辈节点示例
+    //获取到li1对象。
+    var li1 = document.getElementById("li1");
+    //得到li1 的父节点
+    var ul = li1.parentNode;
+    alert(ul.id);
+    //同辈节点
+    var limmmm = li1.nextSibling;//返回下一个同辈节点
+    alert(limmmm.id);
+    var limmmm222 = li1.previousSibling;//返回上一个同辈节点
+    alert(limmmm222.id)
+
+</script>
+</body>
+</html>

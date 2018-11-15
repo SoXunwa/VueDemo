@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<!--
+两个输入框和一个按钮
+-->
+<body>
+行：<input type="text" id="h"/>
+列：<input type="text" id="l"/>
+<br/>
+<input type="button" value="生成" onclick="add2();">
+
+<div id="divv"></div>
+</body>
+
+<script type="text/javascript">
+    function add2() {
+        //1.获取输入的行和列的值
+        var h = document.getElementById("h").value;
+        var l = document.getElementById("l").value;
+        //2.生成表格：循环行，再在行里面循环列。(把表格代码存到一个变量里面。)
+        var tab = "<table border='1' bordercolor = 'red'>";
+        //循环行 h
+        for (var i = 1; i <= h; i++) {
+            //（重要理解）tab+="<tr>" --> tab = tab+"<tr>";//原先tab 变量中存着的内容 + 新增的内容，然年再存回。原来名字叫 tab 的变量。
+            //使用循环，将原本需要多个变量存储的内容，通过累加的方式存到一个变量中。
+            tab += "<tr>";
+            //循环列 l
+            for (var j = 1; j <= l; j++) {
+                tab += "<td>aaaaaa</td>";
+            }
+            tab += "</tr>";
+        }
+        tab += "</table>";
+        //alert(tab);
+
+
+        //3.显示到页面上去，把表格的代码设置到div：innerHTML:
+        //得到div（要显示表格的地方）
+        var divv = document.getElementById("divv");
+        //把table代码设置到div 里面去
+        divv.innerHTML = tab;
+    }
+</script>
+</html>

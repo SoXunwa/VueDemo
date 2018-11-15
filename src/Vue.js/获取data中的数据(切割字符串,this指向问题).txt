@@ -1,0 +1,70 @@
+//参见：05.跑马灯效果(定时器的使用).html
+
+注意：在vm 实例中，
+     如果想要获取 data 上的数据，
+     或者 调用 methods 中的方法，
+     必须通过 thi. 调用（与java 类似，使用成员变量，this 表示当前实例），
+     如：使用 this.数据属性名 或 this.方法名 进行访问调用
+var vm = new Vue({
+    el:'#app_divsion',
+    data:{
+        msg:'Suxuanhua',
+        warn:'别乱来，呀呀呀'
+    },
+    methods:{
+        //methods (ES6)
+        show(){
+            //输出获取到的数据
+            console.log(this.msg);
+            //切割字符串 制作跑马灯效果
+            //获取第一个字符
+            //var start = this.msg.substring(0,1);
+            //获取后面所有字符串
+            //var end = this.msg.substring(1);
+            //重新拼接成新的字符串，并重新赋值给 this.msg
+            //this.msg = end + start;
+
+            //注意：Vue 实例 会监听自己对象内的data 中所有数据的改变，
+            //只要data数据发生变化，就会自动把最新的data数据，同步更新到页面上，
+            //不需要考虑如何重新渲染 DOM 页面
+
+
+            //使用定时器自动切割字符串。上面代码注释
+            //以下代码会存在this 指向问题，会报 msg 错误，
+            setInterval(
+                function(){
+                    console.log(this.msg);
+                    var start = this.msg.substring(0,1);
+                    var end = this.msg.substring(1);
+                    this.msg = end + start;
+                },
+                400 //毫秒
+            )
+            ----------------------------------------------
+            //this 指向问题解决办法 1
+            setInterval(
+                //将外面的this 对象传进来，存着（我也不是很清楚啦，哈哈哈。）
+                var _this = this //es5 解决办法，不推荐
+                function(){
+                    console.log(_this.msg);
+                    var start = _this.msg.substring(0,1);
+                    var end = _this.msg.substring(1);
+                    this.msg = end + start;
+                },
+                400 //毫秒
+            )
+            ---------------------------------------------
+            //this 指向问题解决办法 2
+            //es 6 解决办法 ，去掉function ，
+            //添加 =>，内部 this 指向外部 this，可以让 内部的this 永远和外部的this 保持一致
+            setInterval(() =>{
+                    console.log(this.msg);
+                    var start = this.msg.substring(0,1);
+                    var end = this.msg.substring(1);
+                    this.msg = end + start;
+                },
+                400 //毫秒
+            )
+        }
+    }
+})

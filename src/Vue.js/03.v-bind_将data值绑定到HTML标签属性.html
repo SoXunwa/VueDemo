@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>03.v-bind_用途</title>
+    <script src="../lib/vue.js"/>
+    <!-- css 样式-->
+    <script type="text/css">
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </script>
+</head>
+<body>
+<div id="app">
+    <!--
+        v-bind ：是vue 中，提供用于绑定属性的指令，只要是 HTML 标签属性就可以用。
+                 只能单向绑定（从 Model 绑定到 View 上，不能从 V 绑定到 M），
+                 要双向绑定使用 v-model。
+
+        如果要将data 中的值绑定到 html 标签中的属性，
+        需要通过该指令进行绑定v-bind:xxxx ，
+        此时 标签内属性的值 （mytitle），会被vue 解释成一个变量，将以变量的形式存在，以js表达式的方式进行解析，可以拼接字符串，
+        否则标签内的值会被直接以文本的方式输出，
+        注意：v-bind 中，可以写合法的JS表达式
+    -->
+    <input type="button" value="按钮" v-bind:title="mytitle">
+    <!-- v-bind 拼接字符串 -->
+    <input type="button" value="拼接字符串按钮" v-bind:title="mytitle+'哈哈' ">
+    <!-- v-bind 简写的形式，用 " : " 代替 v-bind s-->
+    <input type="button" value="v-bind 简写的形式 按钮" :title="mytitle+'简写的形式' ">
+</div>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            mytitle: '测试 vue v-bind'
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+
+        .red {
+            color: red;
+            font-size: x-large;
+        }
+
+        .greenyellow {
+            color: greenyellow;
+        }
+
+        .thin {
+            font-weight: 200;
+        }
+
+        .italic {
+            font-style: italic;
+        }
+
+        .active {
+            /*字符之间的间距，对中文有用*/
+            letter-spacing: 0.5em;
+            /*字符之间的间距，对英文有用，对中文没用*/
+            /*word-spacing: 0.5em;*/
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <!--在Vue 中使用 css 样式-->
+
+    <!--1.数组的方式，优点不明显，没有html 默认使用css方式的方便，了解即可。
+        参数是字符串数组，使用v-bind 做数据绑定。
+        如果不加字符串符号v-bind 会把它解释成变量、去data 中找，发生错误。-->
+    <h1 v-bind:class="['thin','italic','active']">1.数组的方式{{ msg }}</h1>
+
+
+    <!--2.【强大】数组中使用三元表达式的方式
+        当isUse 为 true时，使用red 样式，否则使用greenyellow样式-->
+    <h1 v-bind:class="['thin','active',isUse?'red':'greenyellow']">2.数组中使用三元表达式的方式{{ msg }}</h1>
+    <!--当isUse 为 true时，使用greenyellow样式，否则不适用样式-->
+    <h1 v-bind:class="['thin','active',isUse?'greenyellow':'']">3.数组中使用三元表达式的方式{{ msg }}</h1>
+
+
+    <!--3.【强大、便捷】数组中嵌套对象的方式
+        在对象{'greenyellow':flag}中，当isUse为true时，应用greenyellow 样式-->
+    <h1 v-bind:class="['thin','active',{'greenyellow':isUse}]">4.数组中嵌套对象的方式{{ msg }}</h1>
+
+
+    <!--4.直接使用对象的方式，
+        对象的属性名可带引号、也可不带引号。
+        属性的值是一个标识符，
+        值为true 时,应用相应的样式-->
+    <h1 v-bind:class="[{red:true, active:true, 'italic':true}]">5.直接使用对象的方式{{ msg }}</h1>
+    <!--对象方式，【进阶】-->
+    <h1 v-bind:class="classObject">6.直接使用对象的方式【进阶】{{ msg }}</h1>
+
+
+    <h4>{{ author }}</h4>
+</div>
+
+<script>
+    var vm = new Vue({
+
+        el: '#app_division',
+        data: {
+            msg: 'Hello',
+            author: 'XuanhuaSu 2018/11/14',
+            isUse: true,
+
+
+            //对象的属性名可带引号、也可不带引号
+            //可以通过 js 修改对象中属性的值，去控制要不要使用该样式
+            //如果属性中带有"-",需要添加字符串，否则可省
+            classObject: {red: true, active: true, 'italic': true}
+        }
+    });
+</script>
+</body>
+</html>

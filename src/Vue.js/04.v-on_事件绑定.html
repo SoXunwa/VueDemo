@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>04.v-on_事件绑定</title>
+    <script src="../lib/vue.js"/>
+    <script type="text/css">
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </script>
+</head>
+<body>
+<div id="app">
+    <!-- v-on 事件绑定  格式：v-on:xxxx事件 -->
+
+    <!-- 比如给按钮绑定 js 点击事件，当该按钮被点击之后，调用执行show 方法-->
+    <input type="button" value="按钮 show" v-on:click="show">
+    <!-- 给按钮绑定 js 鼠标移过 事件，担当该按钮被鼠标移过之后，调用执行 moveShow 方法-->
+    <input type="button" value="按钮 moveShow " v-on:mouseover="mouseoverShow">
+    <!-- v-on 简写形式 ' @ '-->
+    <input type="button" value="按钮 @ " @mouseover="mouseoverShow">
+</div>
+<script>
+    var vm = new Vue({
+        //vue 对象 形参， el 要操控的 div 的id
+        el: '#app',
+        //vue 对象 形参，定义页面数据
+        data: {
+            msg: '2323131',
+            title: '哈哈哈'
+        },
+        //vue 对象 形参，methods 对象。定义方法
+        methods: {
+            show: function () {
+                alert('按钮被点击了');
+            },
+            mouseoverShow: function () {
+                alert('鼠标移过按钮了');
+            }
+        }
+    });
+</script>
+</body>
+</html>
