@@ -1,0 +1,8 @@
+
+//当字符数量不足时，可使用以下方法：
+String.prototype.padStart(maxLength,fillString='')//(字符串总长度,当字符串长度不够时使用什么字符串填充)
+String.prototype.padEnd(maxLength,fillString='')
+
+比如：当时间\月份\秒是一位数时，可使用该方法
+    let dt = new Date(dateStr);
+    dt.getSeconds().toString().padStart(2, '0');

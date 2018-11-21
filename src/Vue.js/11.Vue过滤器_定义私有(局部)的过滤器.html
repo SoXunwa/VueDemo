@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Document</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg | msgFormat }}</h1>
+    <h4>{{ dt | dataFormat(toggleSituation)}}</h4>
+    <input type="button" v-on:click="toggle" v-model:value="btn_toggle">
+</div>
+<!--
+    当存在两个名称相同的 过滤器（全局 和 私有）时，优点调用私有的过滤器。
+-->
+<script>
+    //定义 vue 全局过滤器，方便全部 Vue 实例对象使用，
+    // 一定要放在 Vue 对象实例之前，否则过滤器不能生效。
+    Vue.filter('msgFormat', function (msg) {
+        let str = ['操', '猪'];
+        for (let i = 0; i < str.length; i++) {
+
+            if (msg.includes(str[i])) {
+                //replace('字符串/正则表达式','替换的字符串');
+                //msg = msg.replace(str[i], '*');
+                //遇到重复的，需要通过正则表达式来解决
+                //正则表达式方式
+                msg = msg.replace(new RegExp(str[i], 'gim'), '*');
+                //msg = msg.replace(/猪/g, '*');
+            }
+        }
+        return msg;
+    });
+
+    var vm = new Vue({
+
+        el: '#app_division',
+        data: {
+            toggleSituation: false,
+            btn_toggle: '显示时间',
+            msg: 'Hello World!',
+            dt: new Date()
+        },
+        methods: {
+            toggle() {
+                if (!this.toggleSituation) {
+                    this.btn_toggle = '隐藏时间';
+                } else {
+                    this.btn_toggle = '显示时间';
+                }
+                this.toggleSituation = !this.toggleSituation;
+            }
+        },
+        //定义私有过滤器对象(支持多个)
+        //两个条件：过滤器名称 和 处理函数
+        filters: {
+            //date ： 过滤器默认传进来的数据变量，必须有
+            //toggle：自定义的
+            dataFormat: function (dateStr, toggleSituation) {
+                //通过给定的时间字符串，创建 Date 对象
+                let dt = new Date(dateStr);
+                //.toString().padStart(2,'0') //字符串填充方法，当月/时/分/秒不足两位时，使用0来填充
+                let y = dt.getFullYear();
+                let m = dt.getMonth().toString().padStart(2, '0');
+                let d = dt.getDay().toString().padStart(2, '0');
+                let hh = dt.getHours().toString().padStart(2, '0');
+                let mm = dt.getMinutes().toString().padStart(2, '0');
+                let ss = dt.getSeconds().toString().padStart(2, '0');
+                //三元运算符方式，" ` " 是ESC下面的那个键
+                return toggleSituation == false ? `${y}-${m}-${d}` : `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -35,7 +35,7 @@
             <!--搜索框，自动获取焦点-->
             <label>
                 搜索名称关键字:
-                <input type="search" v-model:value="keyWords">
+                <input type="search" v-model:value="keyWords" autofocus>
             </label>
         </div>
     </div>
@@ -87,17 +87,16 @@
         //return dt.getFullYear()+"-"+dt.getMonth()+"-"+dt.getDay();
         //return dt.getUTCFullYear()+"-"+dt.getUTCMonth()+"-"+dt.getUTCDay();
         //模板字符串
+
+        //.toString().padStart(2,'0') //字符串填充方法，当月/时/分/秒不足两位时，使用0来填充
         let y = dt.getFullYear();
-        let m = dt.getMonth();
-        let d = dt.getDay();
-        let hh = dt.getHours();
-        let mm = dt.getMinutes();
-        let ss = dt.getSeconds();
-        // return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;// " ` " 是ESC下面的那个键
-        //三元运算符
-        return toggleSituation == false ?
-            `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDay()}`
-            : `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDay()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+        let m = dt.getMonth().toString().padStart(2, '0');
+        let d = dt.getDay().toString().padStart(2, '0');
+        let hh = dt.getHours().toString().padStart(2, '0');
+        let mm = dt.getMinutes().toString().padStart(2, '0');
+        let ss = dt.getSeconds().toString().padStart(2, '0');
+        //三元运算符方式，" ` " 是ESC下面的那个键
+        return toggleSituation == false ? `${y}-${m}-${d}` : `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
 
         //参考：http://www.runoob.com/jsref/jsref-obj-date.html
     });
