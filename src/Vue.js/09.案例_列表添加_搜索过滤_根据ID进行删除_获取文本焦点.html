@@ -46,7 +46,9 @@
         <tr>
             <th>id</th>
             <th>name</th>
-            <th>createTime</th>
+            <th>createTime
+                <input type="button" v-on:click="toggle" v-model:value="btn_toggle">
+            </th>
             <th>operation</th>
         </tr>
         </thead>
@@ -61,7 +63,8 @@
         <tr v-for="item in search(keyWords)" v-bind:key="item.id">
             <td>{{item.id}}</td>
             <td>{{item.name}}</td>
-            <td>{{item.createTime}}</td>
+            <!--dateStr 是用来接收createTime的，默认要有的，toggleSituation 是新增的-->
+            <td>{{item.createTime|dateFormat(toggleSituation)}}</td>
             <td>
                 <!--使用 prevent 阻止默认行为，否则 链接被点击了会跳转
                     将 id 传进去，用于删除
@@ -75,6 +78,30 @@
 </div>
 
 <script>
+
+    //定义全局过滤器，方便全部 Vue 实例对象使用，进行时间格式化，一定要放在 Vue 对象实例之前，否则过滤器不能生效。
+    Vue.filter('dateFormat', function (dateStr, toggleSituation) {
+        //通过给定的时间字符串，创建 Date 对象
+        let dt = new Date(dateStr);
+        //得到年月日，再拼接
+        //return dt.getFullYear()+"-"+dt.getMonth()+"-"+dt.getDay();
+        //return dt.getUTCFullYear()+"-"+dt.getUTCMonth()+"-"+dt.getUTCDay();
+        //模板字符串
+        let y = dt.getFullYear();
+        let m = dt.getMonth();
+        let d = dt.getDay();
+        let hh = dt.getHours();
+        let mm = dt.getMinutes();
+        let ss = dt.getSeconds();
+        // return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;// " ` " 是ESC下面的那个键
+        //三元运算符
+        return toggleSituation == false ?
+            `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDay()}`
+            : `${dt.getFullYear()}-${dt.getMonth()}-${dt.getDay()} ${dt.getHours()}:${dt.getMinutes()}:${dt.getSeconds()}`;
+
+        //参考：http://www.runoob.com/jsref/jsref-obj-date.html
+    });
+
     var vm = new Vue({
 
         el: '#app_division',
@@ -82,6 +109,8 @@
             id: '',
             name: '',
             keyWords: '',//搜索关键字
+            toggleSituation: false,
+            btn_toggle: '显示时间',
             list: [
                 {id: 1, name: '奔驰', createTime: new Date()},
                 {id: 2, name: '宝马', createTime: new Date()},
@@ -91,6 +120,14 @@
             ]
         },
         methods: {
+            toggle() {
+                if (!this.toggleSituation) {
+                    this.btn_toggle = '隐藏时间';
+                } else {
+                    this.btn_toggle = '显示时间';
+                }
+                this.toggleSituation = !this.toggleSituation;
+            },
             search(keyWords) {//根据关键字，进行数据筛选
 
                 // 搜索结果数组
