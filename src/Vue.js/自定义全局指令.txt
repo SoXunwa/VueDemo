@@ -1,0 +1,24 @@
+<script>
+    //自定义指令相关介绍 https://cn.vuejs.org/v2/guide/custom-directive.html#自定义指令
+    //全局的，无论时过滤器还是 其他的，方法后面一般都没有s 的。
+    //所有的指令，都强制以 v- 开头
+    //自定义指令：v-focus
+    //参数1：指令名称（定义时，不需要加 v-，调用时才需要）
+    //参数2：对象
+    Vue.directive('focus',{
+        //当指令绑定到 元素上的时候，立即执行bind function，只执行一次，因为只绑定一次。
+        bind:function(el){ //el:被绑定的元素，固定参数。
+        },
+
+        //当绑定元素插入到 DOM 中，执行 inserted function
+        inserted:function(el){
+            //聚焦元素（获取焦点）
+            //一个元素，只要在插入 DOM之后，才能获取焦点。
+            el.focus();
+        },
+
+        //当VNode 更新的时候，执行updated function，可能会执行多次。
+        updated:function(el){
+        }
+    });
+</script>
