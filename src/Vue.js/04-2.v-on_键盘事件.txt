@@ -1,0 +1,10 @@
+
+
+使用 v-on 给input添加事件：v-on:keyup.键盘的键="要调用的方法" 或 @keyup.键盘的键="要调用的方法"
+比如：
+<!--给input使用键盘回车事件-->
+name:<input type="text" v-model:value="name" v-on:keyup.enter="add">
+<!--给输入框使用键盘o键事件，当按倒 O键时执行-->
+name:<input type="text" v-model:value="name" v-on:keyup.o="add">
+
+vue.js  https://cn.vuejs.org/v2/guide/events.html#%E6%8C%89%E9%94%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6

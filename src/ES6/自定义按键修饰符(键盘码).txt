@@ -1,0 +1,5 @@
+<script>
+    Vue.config.keyCodes.f2 = 113;
+    Vue.config.keyCodes.f5 = 116;
+</script>
+<input type="text" @keyup.f2="add">

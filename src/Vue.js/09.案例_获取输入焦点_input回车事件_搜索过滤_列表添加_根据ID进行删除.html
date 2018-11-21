@@ -28,7 +28,8 @@
                 id:<input type="number" v-model:value="id">
             </label>
             <label>
-                name:<input type="text" v-model:value="name">
+                <!--给input使用键盘回车事件 keyup-->
+                name:<input type="text" v-model:value="name" v-on:keyup.enter="add">
             </label>
             <input type="button" value="添加" v-on:click="add">
 
