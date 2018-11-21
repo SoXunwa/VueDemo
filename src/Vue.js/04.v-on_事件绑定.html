@@ -14,6 +14,10 @@
 <body>
 <div id="app">
     <!-- v-on 事件绑定  格式：v-on:xxxx事件 -->
+    <!--
+        v-on:click="show"，可以写成 v-on:click="show()"，
+        加上小括号之后可以给方法传参数。
+    -->
 
     <!-- 比如给按钮绑定 js 点击事件，当该按钮被点击之后，调用执行show 方法-->
     <input type="button" value="按钮 show" v-on:click="show">
