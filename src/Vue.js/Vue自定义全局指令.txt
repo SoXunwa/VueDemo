@@ -1,0 +1,55 @@
+<script>
+    //自定义指令相关介绍 https://cn.vuejs.org/v2/guide/custom-directive.html#自定义指令
+
+    //全局的，无论时过滤器还是 其他的，方法后面一般都没有s 的。
+    //所有的指令，都强制以 v- 开头
+    //自定义指令：v-focus ，用于获取焦点
+    //参数1：指令名称（定义时，不需要加 v-，调用时才需要）
+    //参数2：对象
+    Vue.directive('focus',{
+        //该方法 在内存中进行操作的
+        //和css样式相关的 操作，最好放在 bind 中执行
+        //当指令绑定到 元素上的时候，立即执行bind function，只执行一次，因为只绑定一次。
+        bind:function(el){ //el:被绑定的元素，固定参数。
+        },
+
+        //该方法 当内存中的元素插入到页面的DOM时 执行
+        //和行为有关的操作，最好放在 inserted 中执行
+        //当绑定元素插入到 DOM 中，执行 inserted function
+        //参数 el: 指令所绑定的元素，可以用来直接操作DOM
+        //更多钩子函数的参数，查看自定义指令相关介绍 https://cn.vuejs.org/v2/guide/custom-directive.html#钩子函数参数
+        inserted:function(el){
+            //聚焦元素（获取焦点）
+            //一个元素，只要在插入 DOM之后，才能获取焦点。
+            el.focus();
+        },
+
+        //该方法 当页面 Node 节点更新时执行。
+        //当VNode 更新的时候，执行updated function，可能会执行多次。
+        updated:function(el){
+        }
+    });
+
+    //自定义指令，设置字体颜色
+    Vue.directive('color',{
+        //自定义指令时，要根据该对象的生命周期，使用对应的方法。
+        bind:function (el){
+            //因为 el 代表的是当前使用指令的元素，所以该元素的所有操作，都支持在 el 对象实现。
+            el.style.color = 'red';
+        }
+    });
+
+    //自定义指令 传参数。
+    //根据自定义指令的参数，执行相关的操作
+    // v-color="'blue'" blue 要加''，否则 vue.js 会判断其是变量，去data 中找。
+    //<input type="text" v-customColor="'yellow'">
+    Vue.directive('customColor',{
+        //根据钩子函数参数介绍，https://cn.vuejs.org/v2/guide/custom-directive.html#钩子函数参数
+        //钩子函数有四个参数：el（默认必须存在的）, binding, vnode, oldVnode, 形参名随意，位置不能变。
+        //可以通过 binding.value 获得 指令绑定的值
+        bind:function(el,binding){
+            el.style.color = binding.value;
+        }
+    });
+
+</script>

@@ -1,0 +1,66 @@
+
+
+<input type="text" v-customColor="'yellow'">
+
+<script>
+    var vm = new Vue({
+        el:'#app',
+        data:{
+            dt:new Date();
+        },
+        //自定义私有方法
+        methods:{
+            方法名称:function(){
+                //do something
+            }
+            //或者
+            方法名(){
+                //do something
+            }
+        },
+        //自定义私有过滤器
+        filters:{
+            过滤器名称:function(){
+                //do something
+            }
+        },
+        //自定义私有指令
+        directives:{
+            '指令名称':{
+                bind:function(形参1,形参2 ...){
+                    //do something
+                },
+                inserted:function(el){
+                    //do something
+                },
+                updated:function(el){
+                    //do something
+                }
+            }
+            //比如
+            'customColor':{
+                bind:function(el,bind){
+                    el.style.color = binding.value;
+                }
+            }
+        }
+    });
+</script>
+
+////////////////////// 函数简写：
+<script>
+    //在很多时候，你可能想在 bind 和 update 时触发相同行为，而不关心其它的钩子。比如这样写:
+    Vue.directive('color-swatch', function (el, binding) {
+      el.style.backgroundColor = binding.value
+    })
+</script>
+
+////////////////////// 接收对象：
+如果指令需要多个值，可以传入一个 JavaScript 对象字面量。
+记住，指令函数能够接受所有合法的 JavaScript 表达式。
+<div v-demo="{ color: 'white', text: 'hello!' }"></div>
+
+Vue.directive('demo', function (el, binding) {
+  console.log(binding.value.color) // => "white"
+  console.log(binding.value.text)  // => "hello!"
+})
