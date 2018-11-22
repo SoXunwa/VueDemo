@@ -49,7 +49,8 @@
 
 ////////////////////// 函数简写：
 <script>
-    //在很多时候，你可能想在 bind 和 update 时触发相同行为，而不关心其它的钩子。比如这样写:
+    //在很多时候，你可能想在 bind 和 update 时触发相同行为，而不关心其它的钩子。
+    //比如这样写，这种方式等同于同时卸载 bind 和 update 方法中:
     Vue.directive('color-swatch', function (el, binding) {
       el.style.backgroundColor = binding.value
     })
