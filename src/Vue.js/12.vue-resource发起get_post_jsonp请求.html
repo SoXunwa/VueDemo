@@ -37,6 +37,8 @@
     <h1>{{ msg }}</h1>
     <h4>{{ author }}</h4>
     <input type="button" value="get请求" v-on:click="getInfo">
+    <input type="button" value="post请求" v-on:click="postInfo">
+    <input type="button" value="jsonp请求" v-on:click="jsonpInfo">
 </div>
 
 <script>
@@ -48,13 +50,46 @@
             author: 'XuanhuaSu 2018/11/26'
         },
         methods: {
+            //发起 get 请求
             getInfo() {
                 console.log('Hello World! 2018/11/26');
                 //扩展包新增的属性。发起http Get请求
                 //发起 请求之后，通过 .then 来设置成功的回调函数
                 this.$http.get('http://vue.studyit.io/api/getlunbo').then(function (result) {
                     console.log(result);
+                    console.log(result.data);
+                    //通过 result.body 获取 服务器返回的数据。
+                    console.log(result.body);
                 })
+            },
+            //发起 post 请求
+            postInfo() {
+                //post('url'.{body},{options})
+                //post body 不能省略，是一个对象，可以用空对象代替
+
+                //手动发起的 post 请求默认没有表单格式，所以会出现有的服务器处理不了请求的情况，
+                //通过 post 方法的 options 参数，设置 提交内容的类型，为普通表单数据格式。
+                //options 请求头。
+                this.$http.post('http://vue.studyit.io/api/post', {}, {emulateJSON: true}).then(
+                    // =>{ }  箭头函数，就是匿名函数，与Java 匿名对象相似
+                    result => {
+                        console.log(result);
+                        console.log(result.data);
+                        //通过 result.body 获取 服务器返回的数据。
+                        console.log(result.body);
+                    }
+                );
+            },
+            //发起jsonp请求
+            jsonpInfo() {
+                // =>{ }  箭头函数，就是匿名函数，与Java 匿名对象相似
+                this.$http.jsonp('http://vue.studyit.io/api/jsonp').then(
+                    result => {
+                        console.log(result);
+                        console.log(result.data);
+                        //通过 result.body 获取 服务器返回的数据。
+                        console.log(result.body);
+                    })
             }
         }
     });
