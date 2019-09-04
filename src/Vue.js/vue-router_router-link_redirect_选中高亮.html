@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-router_基本使用</title>
+    <script src="../lib/vue.js"></script>
+    <!-- 1.在 Vue 后面加载 vue-router，它会自动安装的：-->
+    <script src="../lib/vue-router.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <!--  6.链接跳转，方式一 -->
+    <a href="#/login">登录</a>
+    <a href="#/register">注册</a>
+    <!-- 方式二使用 router-link 组件来导航. -->
+    <!-- 通过传入 `to` 属性指定链接. -->
+    <!-- <router-link> 默认会被渲染成一个 `<a>` 标签，如果想渲染成 span，添加 tag="span" 属性-->
+
+    <!-- 设置高亮方式一，当 <router-link> 对应的路由匹配成功，将自动设置 class 属性值 .router-link-active-->
+    <!-- 可以通过设置 .router-link-active 设置展现样式  -->
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+
+    <!--  5.路由出口，放置展现容器，占位符  -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+</div>
+
+<script>
+    //3.组件模板对象
+    const login = {
+        template: '<h1>登录组件</h1>'
+    };
+    const register = {
+        template: '<h1>注册组件</h1>'
+    };
+
+    //2.创建一个路由对象，当导入 vue-router 包之后，在window 全局对象中，
+    // 就有一个路由的够着函数：VueRouter。
+    // 在 new 路由对象的时候，可以位 构造函数，传递一个配置对象
+    const routerObj = new VueRouter(
+        //配置对象
+        {
+            //路由配置数组
+            routes: [
+                //路由配置对象
+
+                //设置默认（强制）展示的路由对象
+                {
+                    path: '/',
+                    //方式一（不友好）
+                    // component: login, //默认组件
+                    //方式二 (推荐)
+                    redirect: '/login'
+                },
+                //普通路由配置对象
+                {
+                    // 配置/绑定对象 Key ，也叫监听的链接
+                    path: '/login',
+                    //  对应该 key 的 组件模板对象
+                    component: login
+                },
+                {
+                    path: '/register',
+                    component: register
+                }
+            ],
+            //设置高亮方式二
+            // linkActiveClass: '对应的 css 样式: myactive'
+        }
+    );
+
+    //creat vue object，get ViewModel
+    const vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/4'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/4');
+            }
+        },
+        //4.将路由对象注册到指定的 vm 实例上
+        router: routerObj
+    });
+</script>
+</body>
+</html>
