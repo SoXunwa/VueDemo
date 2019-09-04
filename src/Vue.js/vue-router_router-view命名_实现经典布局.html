@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-router_实现经典布局</title>
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .header_view {
+            height: 80px;
+            background: orange;
+        }
+
+        .container {
+            height: 600px;
+            width: 100%;
+            display: flex;
+        }
+
+        .left_view {
+            flex: 2;
+            background: chartreuse;
+        }
+
+        .main_view {
+            flex: 8;
+            background: firebrick;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <router-view></router-view>
+    <div class="container">
+        <router-view name="left"></router-view>
+        <router-view name="main"></router-view>
+    </div>
+</div>
+
+<script>
+    //实现经典组件
+    //1.头部
+    const header = {
+        template: '<h1 class="header_view">Header 头部区域</h1>'
+    };
+
+    const leftBox = {
+        template: '<h1 class="left_view">Left 侧边栏区域</h1>'
+    };
+
+    const mainBox = {
+        template: '<h1 class="main_view">Main 主体区域</h1>'
+    };
+
+    //2.创建路由对象
+    const routerObj = new VueRouter({
+        routes: [
+            //一个url 对应一个组件
+            // {path: '/', component: header},
+
+            //一个 url 对应多个 组件
+            {
+                path: '/', components: {
+                    //key 可以加字符号也可以不加（vue 会自动加）：default 或 'default',
+                    //给默认 没有命名的 router-view 绑定显示 header 组件
+                    default: header,
+                    //给名字是 left router-view 绑定显示 leftBox 组件
+                    left: leftBox,
+                    //给名字是 main router-view 绑定显示 mainBox 组件
+                    main: mainBox
+                }
+            },
+        ]
+    });
+    //creat vue object，get ViewModel
+    const vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/5'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/5');
+            }
+        },
+        //4.将路由对象注册到指定的 vm 实例上
+        router: routerObj
+    });
+</script>
+</body>
+</html>
