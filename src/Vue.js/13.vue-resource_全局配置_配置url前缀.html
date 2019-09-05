@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>vue-resource_配置url前缀</title>
+
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-resource-1.5.1.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+</div>
+
+<script>
+    //配置 vue-resource 全局配置
+    //参考文档：https://github.com/pagekit/vue-resource/blob/HEAD/docs/config.md
+    //配置 vue-resource url 前缀（根目录）
+    Vue.http.options.root = 'https://www.suxuanhua.cn';
+    // ----> 使用方式，必须是相对路径，前面不能加"/"：Vue.http.get('someUrl/')。
+    //否则不会启用
+
+    //配置 vue 请求头
+    // Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
+
+    //If your web server can't handle requests encoded as application/json,
+    // you can enable the emulateJSON option.
+    // This will send the request as application/x-www-form-urlencoded MIME type,
+    // as if from an normal HTML form.
+    Vue.http.options.emulateJSON = true;
+
+    //If your web server can't handle REST/HTTP requests like PUT, PATCH and DELETE,
+    // you can enable the emulateHTTP option.
+    // This will set the X-HTTP-Method-Override header with the actual HTTP method and use a normal POST request.
+    Vue.http.options.emulateHTTP = true;
+
+    //creat vue object，get ViewModel
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/5'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/5');
+            }
+        },
+        //对象初始化阶段，对象初始化的四个事件
+        //1.创建 Vue 实例对象之前执行
+        beforeCreate() {
+            //以下是特殊情况，语法没问题，但是生命周期有问题。
+            //输出失败，因为beforeCreate()是在创建 Vue 实例对象之前执行的，data 还没初始化。
+            //console.log(this.msg);
+            //执行失败，因为beforeCreate()是在创建 Vue 实例对象之前执行的，methods 还没初始化。
+            //this.sayHello();
+        },
+        //2. Vue 实例对象之后执行
+        created() {
+            //执行成功，data 和 methods 在 beforeCreate()执行之后进行了初始化。
+            console.log(this.msg);
+            this.sayHello();
+        },
+        //3.挂载前执行
+        // 模板在内存中编辑完成了，但是还没有把模板 渲染到浏览器页面
+        beforeMount() {
+            //试着输出 html 标签中的内容，
+            //输出内容：{{ msg }}
+            //在 beforeMount 执行时，{{ msg }} 还没有被Vue中的数据 覆盖替换，还是模板字符。
+            console.log('beforeMount() ' + document.getElementById('h1').innerText);
+        },
+        //4.挂在之后执行
+        //对象初始化完毕
+        //把内存中的模板 渲染到浏览器页面
+        mounted() {
+            //输出内容：Hello World!，
+            //在 mounted 执行时，{{ msg }} 已经被Vue中的数据 覆盖替换了。
+            console.log('mounted() ' + document.getElementById('h1').innerText);
+        },
+
+
+        //对象运行阶段，对象运行中的事件。
+        //当 data 中的数据更新了，渲染到页面前，执行以下方法
+        //数据被更新了，只是还没渲染要页面
+        beforeUpdate() {
+            console.log('beforeUpdate() 被执行了，数据更新了，还没渲染到页面上');
+            console.log('页面上元素的数据：' + document.getElementById('h1').innerText);
+            console.log('data 中的内容：' + this.msg);
+        },
+        //当 data 中的数据更新了，并渲染到页面之后，执行以下方法
+        updated() {
+            console.log('updated() 被执行了，数据更新了，并渲染到页面上');
+            console.log('页面上元素的数据：' + document.getElementById('h1').innerText);
+            console.log('data 中的内容：' + this.msg);
+        },
+
+        //对象销毁阶段，对象销毁时的事件
+        //当用户关闭页面时，进入对象销毁阶段
+        //对象销毁前运行
+        beforeDestroy() {
+            //当执行该方式时，
+            // 实例对象中的data 、methods 、过滤器、指令等等，都处于可用状态，还没真正执行销毁。
+        },
+        //对象销毁之后运行
+        destroyed() {
+            //执行到该方法时，对象中的所有组件都已经被完全销毁了，
+            // 实例对象中的data 、methods 、过滤器、指令等等，都不可用。
+        }
+    });
+</script>
+</body>
+</html>

@@ -29,7 +29,7 @@
     //new 的 Vue 实例对象，就是M V VM 中的 VM(调度者)
     var app = new Vue({
         //方法参数
-        el: '#app',  //表示当前我们 new 的这个 vue 实例，要控制页面的那个区域（控制ID为app 的元素）
+        el: '#app',  //表示当前我们 new 的这个 vue 实例，要控制页面的那个区域（控制ID为app 的元素，如果属性是id 则使用 #，如果属性是class 则使用"."）
         // data 就是M V VM 中的 M（保存每个页面的而数据的）
         data: {      //data 属性中，存放的是el 中要用到的数据
             message: '欢迎学习 Vue' //通过 Vue 提供的指令，把数据渲染到页面上，不用再（不推荐手动）手动操作DOM元素
