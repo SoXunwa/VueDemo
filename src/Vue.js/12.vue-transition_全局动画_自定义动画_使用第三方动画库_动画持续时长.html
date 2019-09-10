@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>14.vue-transition_动画</title>
+    <link rel="stylesheet" href="../css/animate.css">
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-resource-1.5.1.js"></script>
+    <!--  2.自定义两组样式，用来控制 transition  -->
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+
+        /* 动画线：[.v-enter] --> [.v-enter-to] --> [.v-leave]  --> [.v-leave-to]
+         *            |____ 进场动画 ___|               |_____ 离场动画 ____|
+         */
+
+        /*以下为全局动画*/
+        /*vue提供的默认类，v-enter：进入之前，v-leave-to：离开之后*/
+        .v-enter, .v-leave-to {
+            opacity: 0;
+            transform: translateX(80px);
+        }
+
+        /*vue提供的默认类，v-enter-active：入场期间使用的动画，v-leave-active：离场期间使用的动画*/
+        .v-enter-active, .v-leave-active {
+            transition: all 0.4s ease;
+        }
+
+        /*以下为自定义动画*/
+        .my-transition-enter, .my-transition-leave-to {
+            opacity: 0;
+            transform: translateX(-80px);
+        }
+
+        .my-transition-enter-active, .my-transition-leave-active {
+            transition: all 4s ease;
+        }
+
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <!--  需求：点击按钮，使 h1 h4 显示，再次点击隐藏  -->
+    <!--  参考api：https://cn.vuejs.org/v2/guide/transitions.html#%E8%BF%87%E6%B8%A1%E7%9A%84%E7%B1%BB%E5%90%8D  -->
+    <input type="button" value="默认" v-on:click="flag=!flag"/>
+    <!--  1.使用Vue translation 元素，吧需要被动画控制的元素 包裹起来 -->
+    <transition>
+        <div v-if="flag">
+            <h1>{{ msg }}</h1>
+            <h4>{{ author }}</h4>
+        </div>
+    </transition>
+
+    <!--  自定义动画  -->
+    <input type="button" value="自定义动画" v-on:click="flag2=!flag2"/>
+    <transition name="my-transition">
+        <div v-if="flag2">
+            <h1>{{ msg }}</h1>
+            <h4>{{ author }}</h4>
+        </div>
+    </transition>
+
+    <!--  使用第三方动画库  -->
+    <input type="button" value="使用第三方动画库" v-on:click="flag3=!flag3"/>
+    <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut">
+        <!-- 设置入场和离场的动画时长 duration，同时设置：v-bind:duration="200"，单独设置：v-bind:duration="{enter:200,leave:400}"-->
+        <!-- <transition enter-active-class="animated bounceIn" leave-active-class="animated bounceOut" v-bind:duration="{enter:200,leave:400}">-->
+        <div v-if="flag3">
+            <h1>{{ msg }}</h1>
+            <h4>{{ author }}</h4>
+        </div>
+    </transition>
+</div>
+
+<script>
+    //creat vue object，get ViewModel
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/5',
+            flag: false,
+            flag2: false,
+            flag3: false,
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/5');
+            }
+        }
+    });
+</script>
+</body>
+</html>

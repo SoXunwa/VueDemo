@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>15.vue-transition_使用js钩子实现半场</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+
+        /*小球css */
+        .ball {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: firebrick;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <input type="button" value="购物车" v-on:click="flag=!flag">
+    <!--  v-on：绑定js 动画生命周期函数（按顺序执行）  -->
+    <!--  参考 api：https://cn.vuejs.org/v2/guide/transitions.html#JavaScript-%E9%92%A9%E5%AD%90  -->
+    <!--  【推荐】对于仅使用 JavaScript 过渡的元素添加 v-bind:css="false"，Vue 会跳过 CSS 的检测。这也可以避免过渡过程中 CSS 的影响。-->
+    <transition
+            v-bind:css="false"
+            v-on:before-enter="beforeEnter"
+            v-on:enter="enter"
+            v-on:after-enter="afterEnter"
+            v-on:enter-cancelled="enterCancelled"
+
+            v-on:before-leave="beforeLeave"
+            v-on:leave="leave"
+            v-on:after-leave="afterLeave"
+            v-on:leave-cancelled="leaveCancelled"
+    >
+        <div v-show="flag" class="ball"></div>
+    </transition>
+</div>
+
+<script>
+    //creat vue object，get ViewModel
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            flag: false
+        },
+        //methods Object
+        methods: {
+            // --------
+            // 进入中
+            // 根据需求实现半场动画，所以只需要处理入场动画，前四个钩子函数
+            // el:元素对象，可以认为是通过 document.getElementById("") 的方式获取原生元素对象
+            // --------
+            //动画入场之前，动画尚未开始
+            beforeEnter: function (el) {
+                // 设置小球 动画开始之前的起始位置
+                el.style.transform = "translate(0,0)"
+            },
+            // 动画进行中
+            // 当与 CSS 结合使用时
+            // 回调函数 done 是可选的
+            enter: function (el, done) {
+                // 必须有offse...，否则动画无法呈现
+                el.offsetWidth;
+                // el.offsetHeight;
+                //设置动画结束的位置
+                el.style.transform = "translate(150px,450px)";
+                //设置过渡动画
+                el.style.transition = "all 1s ease";
+                // 当只用 JavaScript 过渡的时候，在 enter 和 leave 中必须使用 done 进行回调。
+                // 否则，它们将被同步调用，过渡会立即完成。
+                done();
+            },
+            //bug enter 和 afterEnter 会同步执行，调用 done 也没用，所以需要定时
+            afterEnter: function (el) {
+                // 动画完成之后
+                // setTimeout(() => {
+                //     this.flag = false;
+                // }, 2000)
+            },
+            enterCancelled: function (el) {
+                // ...
+            },
+
+            // --------
+            // 离开时
+            // --------
+
+            beforeLeave: function (el) {
+                // ...
+            },
+            // 当与 CSS 结合使用时
+            // 回调函数 done 是可选的
+            leave: function (el, done) {
+                // 当只用 JavaScript 过渡的时候，在 enter 和 leave 中必须使用 done 进行回调。
+                // 否则，它们将被同步调用，过渡会立即完成。
+                done();
+            },
+            afterLeave: function (el) {
+                // ...
+            },
+            // leaveCancelled 只用于 v-show 中
+            leaveCancelled: function (el) {
+                // ...
+            }
+        }
+    });
+</script>
+</body>
+</html>

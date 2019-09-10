@@ -34,11 +34,15 @@
     //配置 vue 请求头
     // Vue.http.headers.common['Authorization'] = 'Basic YXBpOnBhc3N3b3Jk';
 
+    //全局启用 emulateJSON
     //If your web server can't handle requests encoded as application/json,
     // you can enable the emulateJSON option.
     // This will send the request as application/x-www-form-urlencoded MIME type,
     // as if from an normal HTML form.
     Vue.http.options.emulateJSON = true;
+    // 单个请求启用
+    this.$http.post('api/addproduct', {数据对象}, {emulateJSON: true}).then(res => {
+    });
 
     //If your web server can't handle REST/HTTP requests like PUT, PATCH and DELETE,
     // you can enable the emulateHTTP option.
