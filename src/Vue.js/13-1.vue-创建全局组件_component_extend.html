@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-1.vue-创建组件的方式</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <!--  引入组件：
+          注意，如果组件名称以驼峰命名，标签必须使用 "-" 隔开单词，并且全部小写：<my-com1></my-com1>，
+          不是以驼峰命名，直接引用即可。
+     -->
+    <!--<myCom1>这是错误的引用方式</myCom1>-->
+    <my-com1></my-com1>
+    <mycom2></mycom2>
+    <my-com3></my-com3>
+</div>
+<!--创建组件方式三：通过<template> 元素创建-->
+<template id="tmpl">
+    <div>
+        <h1>这是创建组件方式二，通过 template 元素创建</h1>
+    </div>
+</template>
+<script>
+    // 方式一：
+    // 1.使用 Vue.extend 来创建全局的Vue组件。
+    var com1 = Vue.extend({
+        //通过 template 属性指定要展示HTML 结构。
+        //【注意，组件模板HTML代码，必须包含在一个根节点内，必须只有一个根节点】
+        // 错误示例：template: '<h3> 这是创建组件方式一，使用 Vue.extend 创建的组件</h3><span>123</span>'
+        template: '<h3> 这是创建组件方式一，使用 Vue.extend 创建的组件<span>123</span></h3>'
+    });
+    //1.2 使用Vue.component('组件的名称',创建出来的组件模板对象)
+    //可以直接省掉第一步，将第一步融到1.1中:Vue.component('mycom1',Vue.extend({ template: '<h3> 这是使用 Vue.extend 创建的组件</h3>'}))
+    Vue.component('myCom1', com1);
+
+
+    //方式二：
+    Vue.component('mycom2', {
+        template: '<h3> 这是创建组件方式三，使用 Vue.component 创建的组件</h3>'
+    });
+
+    //【推荐】方式三：通过<template> 元素创建
+    Vue.component('my-com3', {
+        //template 指向一个 <template>
+        //注意：该<template>必须在 Vue 对象绑定的 DIV 之外。
+        template: '#tmpl'
+    });
+    //creat vue object，get ViewModel
+    var vm = new Vue({
+
+        //need control division(div)
+        el: '#app_division',
+
+        //data array
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/10'
+        },
+        //methods Object
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/10');
+            }
+        }
+    });
+</script>
+</body>
+</html>
