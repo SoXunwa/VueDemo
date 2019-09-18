@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>13-2.vue-component_创建私有组件</title>
+    <title>13-3.vue-组件中的data_component</title>
 
     <script src="../lib/vue.js"></script>
     <style>
@@ -20,14 +20,21 @@
 <div id="app_division">
     <h1>{{ msg }}</h1>
     <h4>{{ author }}</h4>
-    <login></login>
-    <login2></login2>
+    <mycom></mycom>
 </div>
-<template id="tmpl">
-    <h1>这是私有的Login2 组件</h1>
-</template>
+
 <script>
-    //定义 实例对象
+    Vue.component('mycom', {
+        template: '<h1>这是全局组件，{{msg}}</h1>',
+        //组件中的data，必须是一个 function，并且 返回一个对象
+        //使用方式 和 vue 对象中的 data 一样
+        //为什么是一个function ,因为组件是通用的，可以同时创建 且可以存在多组件，避免同组件数据共享，造成数据混淆。
+        data: function () {
+            return {
+                msg: '组件中的 data'
+            }
+        }
+    });
     //creat vue object，get ViewModel
     var vm = new Vue({
 
@@ -37,23 +44,15 @@
         //data array
         data: {
             msg: 'Hello World!',
-            author: 'XuanhuaSu 2019/9/11'
+            author: 'XuanhuaSu 2019/9/18'
         },
         //methods Object
-        methods: {},
-        //定义实例内部私有组件
-        components: {
-            login: {
-                template: '<h1>这是私有的Login 组件</h1>'
-            },
-            //如果出现同名的情况，后面的会覆盖前面的
-            login: {
-                template: '#tmpl'
-            },
-            login2: {
-                template: '#tmpl'
+        methods: {
+            //method ...
+            sayHello() {
+                console.log('Hello World! 2019/9/18');
             }
-        }
+        },
     });
 </script>
 </body>

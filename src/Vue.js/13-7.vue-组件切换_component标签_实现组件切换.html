@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-7.vue-组件切换方式二</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <a v-on:click.prevent="comnamestr='login'">登录</a>
+    <a v-on:click.prevent="comnamestr='register'">注册</a>
+    <a v-on:click.prevent="comnamestr='freeback'">反馈</a>
+    <!-- Vue 提供 component 标签，占位符，可根据组件名称 展示相应的组件-->
+    <!--  可用于切换展示多个不同的组件，v-bind:is="'组件名称字符串'"，
+    注意：因为 v-bind:is属于属性绑定，等号后面的值，会当作js 表达式进行解析，所以组件名称要加字符串符号  -->
+    <component v-bind:is="comnamestr"></component>
+</div>
+
+<script>
+    //组件
+    Vue.component('login', {
+        template: '<h1>登录组件</h1>'
+    });
+    Vue.component('register', {
+        template: '<h1>注册组件</h1>'
+    });
+    Vue.component('freeback', {
+        template: '<h1>反馈组件</h1>'
+    });
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            comnamestr: 'login',
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/19'
+        },
+        methods: {},
+        //定义实例内部私有组件
+        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
+        components: {},
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-5.vue-调用父组件方法_传参_修改父组件的data</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <!--  通过自定义事件，将父组件方法索引传给子组件：v-on:自定义事件名="要传递的父组件方法"  -->
+    <!--  sayHello 和 sayHello() 的区别：加括号表示将方法的执行结果传递给 diyfunction，否则是传递方法索引 -->
+    <mycom v-on:diy111="sayHello"></mycom>
+    <mycom2 v-on:diy222="sayHello2"></mycom2>
+</div>
+<template id="templ">
+    <div>
+        <h1>这是 子组件</h1>
+        <input v-on:click="myclick" type="button" value="子组件中的按钮">
+    </div>
+</template>
+
+<template id="templ2222">
+    <div>
+        <h5>这是 子组件22222</h5>
+        <input v-on:click="myclick2('suxuanhua','susususu')" type="button" value="子组件中的按钮（带参）">
+    </div>
+</template>
+<script>
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/19'
+        },
+        methods: {
+            sayHello() {
+                console.log('调用了 父组件身上的 sayHello 方法')
+            },
+            sayHello2(str1, str2) {
+                console.log('调用了 父组件身上的 sayHello2 方法，参数：1.' + str1 + "\t2." + str2);
+                //修改父组件中的data
+                this.msg = str1, this.author = str2;
+            }
+        },
+        //定义实例内部私有组件
+        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
+        components: {
+            //子组件调用父组件中的方法：
+            //1.通过自定义事件，将父组件方法索引传给子组件，给组件容器添加属性：v-on:自定义事件名="要传递的父组件方法
+            //2.组件内定义组件方法，并通过v-on:click 绑定到标签上。
+            //3.通过子组件中的方法，去调用父组件中的方法：this.$emit('diy111')
+            mycom: {
+                template: '#templ',
+                methods: {
+                    //子组件中绑定的方法
+                    myclick() {
+                        console.log('调用了 子组件中的 myclick 方法');
+                        //通过子组件中的方法，调用父组件中的方法
+                        //emit : 触发/调用
+                        //diy111 自定义事件名
+                        this.$emit('diy111')
+                    }
+                }
+            },
+            //通过 组件调用，子组件修改父组件中的data:
+            //步骤同上，追加以下步骤：
+            //5.给方法添加 方法参数即可，如案例
+            mycom2: {
+                template: '#templ2222',
+                methods: {
+                    myclick2(str1, str2) {
+                        this.$emit('diy222', str1, str2)
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-6.vue-两个组件之间的切换</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <a v-on:click.prevent="flag=true">登录</a>
+    <a v-on:click.prevent="flag=false">注册</a>
+    <login v-if="flag"></login>
+    <register v-else="flag"></register>
+</div>
+
+<script>
+    //组件一
+    Vue.component('login', {
+        template: '<h1>登录组件</h1>'
+    });
+    //组件二
+    Vue.component('register', {
+        template: '<h1>注册组件</h1>'
+    });
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            flag: false,
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/19'
+        },
+        methods: {},
+        //定义实例内部私有组件
+        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
+        components: {},
+    });
+</script>
+</body>
+</html>

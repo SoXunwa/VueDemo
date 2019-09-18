@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-4.vue-组件传值_父组件_向_子组件_传值</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <!-- 自定义属性绑定的方式（v-bind）将 父组件中的 data数据 传递到 子组件中 -->
+    <mycom v-bind:objmsg="msg"></mycom>
+</div>
+
+<script>
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/18'
+        },
+        methods: {},
+        //定义实例内部私有组件
+        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
+        //想要传值，可以通过 自定义属性绑定的方式（v-bind）将 父组件中的 data数据 传递到 子组件中，
+        //1.自定义属性绑定 v-bind:自定义属性名="父组件中的data属性"，示范：v-bind:objmsg="msg"
+        //2.在自定义组件内部 声明该属性：props:['声明的属性']
+        //3.使用数据，和 vue data 的使用方式一样
+        components: {
+            mycom: {
+                //可读可写
+                data: function () {
+
+                    return {
+                        title: '123'
+                    }
+                },
+                //只读数据，props 中的数据，都是 父组件传递给子组件的
+                props: ['objmsg'],
+                //组件中的私有方法
+                methods: {
+                    //修改子组件中的data?
+                    change() {
+                        this.title = 'suxuanhua';
+                    }
+                },
+                template: '<h1 v-on:click="change">这是私有组件，{{objmsg}}</h1>'
+            }
+        }
+    });
+</script>
+</body>
+</html>

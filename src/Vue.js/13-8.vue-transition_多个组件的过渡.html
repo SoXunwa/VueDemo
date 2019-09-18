@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>13-8.vue-transition_多个组件的过渡</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+
+        .component-fade-enter-active, .component-fade-leave-active {
+            transition: opacity .3s ease;
+        }
+
+        /* .component-fade-leave-active for below version 2.1.8 */
+        .component-fade-enter, .component-fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+<div id="app_division">
+    <a v-on:click.prevent="comnamestr='login'">登录</a>
+    <a v-on:click.prevent="comnamestr='register'">注册</a>
+    <a v-on:click.prevent="comnamestr='freeback'">反馈</a>
+    <!-- Vue 提供 component 标签，占位符，可根据组件名称 展示相应的组件-->
+    <!--  可用于切换展示多个不同的组件，v-bind:is="'组件名称字符串'"，
+    注意：因为 v-bind:is属于属性绑定，等号后面的值，会当作js 表达式进行解析，所以组件名称要加字符串符号  -->
+    <transition name="component-fade" mode="out-in">
+        <component v-bind:is="comnamestr"></component>
+    </transition>
+</div>
+<script>
+    //多个组件过渡 API:https://cn.vuejs.org/v2/guide/transitions.html#%E5%A4%9A%E4%B8%AA%E7%BB%84%E4%BB%B6%E7%9A%84%E8%BF%87%E6%B8%A1
+    //1.使用 <transition> 包起来
+    //2.设置动画样式，与普通 vue-transition 一样
+    //组件
+    Vue.component('login', {
+        template: '<h1>登录组件</h1>'
+    });
+    Vue.component('register', {
+        template: '<h1>注册组件</h1>'
+    });
+    Vue.component('freeback', {
+        template: '<h1>反馈组件</h1>'
+    });
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            comnamestr: 'login',
+        },
+        methods: {},
+        //定义实例内部私有组件
+        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
+        components: {},
+    });
+</script>
+</body>
+</html>
