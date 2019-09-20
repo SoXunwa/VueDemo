@@ -43,6 +43,9 @@
         methods: {},
         //定义实例内部私有组件
         components: {
+            //简写：将模板对象变量名，当作模板对象注册名，引用方式：<login></login>
+            login,
+            //正常写法
             login: {
                 template: '<h1>这是私有的Login 组件</h1>'
             },

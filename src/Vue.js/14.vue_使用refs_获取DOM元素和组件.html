@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>14.vue_使用refs_获取元素和组件</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1 id="msg_text">{{ msg }}</h1>
+    <h4 id="author_text" ref="author_ref">{{ author }}</h4>
+    <!--  获取元素的DOM 对象  -->
+    <input type="button" value="获取元素" v-on:click="getElement">
+    <!--  获取组件的元素对象  -->
+    <test ref="test_ref"></test>
+</div>
+
+<script>
+    var vm = new Vue({
+
+            //Vue 对象控制的 div
+            el: '#app_division',
+
+            data: {
+                msg: 'Hello World!',
+                author: 'XuanhuaSu 2019/9/21'
+            },
+            methods: {
+                //因为 vue 不建议 直接操作 DOM 元素，
+                //为了 解决一些操作 DOM 需求，Vue 提供了相关的解决方案：$refs（references:引用） 对象
+                //1.在需要操作的 元素标签上 添加属性 ref="DOM元素名"，不是 $refs，因为是单个元素
+                //2.通过 this.$refs.DOM元素名 获取该DOM 元素对象的引用，效果等同于：document.getElementById('xxx').
+                getElement() {
+                    //js 原生操作DOM
+                    console.log(document.getElementById('msg_text').innerText);
+                    //this.$refs.author_ref 获取该DOM 元素对象的引用
+                    console.log(this.$refs.author_ref.innerText);
+                    //获取组件的引用
+                    console.log(this.$refs.test_ref.$el.innerText);
+                    //获取子组件中的data 属性值
+                    console.log(this.$refs.test_ref.msg);
+                    //调用子组件的 方法
+                    this.$refs.test_ref.show()
+                },
+            },
+            components: {
+                test: {
+                    data() {
+                        return {
+                            msg: '子组件 msg'
+                        }
+                    },
+                    methods: {
+                        show() {
+                            console.log('调用了子组件的show方法')
+                        }
+                    },
+                    template: '<h1>测试组件</h1>'
+                }
+            }
+        })
+    ;
+</script>
+</body>
+</html>
