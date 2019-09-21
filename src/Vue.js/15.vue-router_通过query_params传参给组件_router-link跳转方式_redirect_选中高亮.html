@@ -21,29 +21,42 @@
     <h1>{{ msg }}</h1>
     <h4>{{ author }}</h4>
     <!--  6.链接跳转，方式一 -->
-    <a href="#/login">登录</a>
-    <a href="#/register">注册</a>
+    <!-- query 传参：使用hash 方式 通过路由 给组件传参  -->
+    <a href="#/login?id=10&name=suxuanhua">登录</a>
+    <!-- params 传参：  -->
+    <a href="#/register/suxuanhua">注册</a>
     <!-- 方式二使用 router-link 组件来导航. -->
     <!-- 通过传入 `to` 属性指定链接. -->
     <!-- <router-link> 默认会被渲染成一个 `<a>` 标签，如果想渲染成 span，添加 tag="span" 属性-->
 
     <!-- 设置高亮方式一，当 <router-link> 对应的路由匹配成功，将自动设置 class 属性值 .router-link-active-->
     <!-- 可以通过设置 .router-link-active 设置展现样式  -->
-    <router-link to="/login">登录</router-link>
-    <router-link to="/register">注册</router-link>
+    <router-link to="/login?id=10&name=suxuanhua">router-link 登录</router-link>
+    <router-link to="/register/suxuanhua">router-link 注册</router-link>
 
     <!--  5.路由出口，放置展现容器，占位符  -->
     <!-- 路由匹配到的组件将渲染在这里 -->
     <router-view></router-view>
 </div>
-
+<!--
+   params 和 query 的 区别：query可以一个链接携带多个参数，params 只能携带一个
+-->
 <script>
     //3.组件模板对象
     const login = {
-        template: '<h1>登录组件</h1>'
+        template: '<h1>登录组件，获取到的组件参数：{{$route.query.name}}</h1>',
+        //query 传参：通过组件声明周期获取参数
+        created() {
+            //query 传参：通过当前组件路由对象（$route）中的 query 属性，获取通过 hash 方式传来的参数对象
+            console.log(this.$route.query)
+        }
     };
     const register = {
-        template: '<h1>注册组件</h1>'
+        template: '<h1>注册组件{{$route.params.name}}</h1>',
+        created() {
+            // params 传参：通过当前组件路由对象（$route）中的 params 属性，获取路径中的值
+            console.log(this.$route.params.name)
+        }
     };
 
     //2.创建一个路由对象，当导入 vue-router 包之后，在window 全局对象中，
@@ -72,7 +85,8 @@
                     component: login
                 },
                 {
-                    path: '/register',
+                    <!-- params 传参： /login/[该路径块]/index，将该路径块中的 数据，解析成属性名为name 的值-->
+                    path: '/register/:name',
                     component: register
                 }
             ],
