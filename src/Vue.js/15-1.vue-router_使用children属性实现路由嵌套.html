@@ -9,6 +9,7 @@
     <title>15-1.vue-router_使用children属性实现路由嵌套</title>
 
     <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
     <style>
         html, body {
             margin: 5px;
@@ -18,21 +19,48 @@
 </head>
 <body>
 <div id="app_division">
-    <h1>{{ msg }}</h1>
-    <h4>{{ author }}</h4>
+    <router-link to="/account">Account</router-link>
+    <router-view></router-view>
 </div>
-
+<template id="tmpl">
+    <div>
+        <h1>account 组件</h1>
+        <router-link to="/account/login">登录</router-link>
+        <router-link to="/account/register">注册</router-link>
+        <router-view></router-view>
+    </div>
+</template>
 <script>
+    var account = {
+        template: '#tmpl'
+    };
+    var login = {
+        template: '<h3>登录</h3>'
+    };
+    var register = {
+        template: '<h3>注册</h3>'
+    };
+    var router = new VueRouter({
+        routes: [
+            {
+                path: '/account',
+                component: account,
+                children: [
+                    //前面不能加斜杠，因为加斜杠是绝对路径，不加是相对路径
+                    {path: 'login', component: login},
+                    {path: 'register', component: register}
+                ]
+            }
+        ]
+    });
     var vm = new Vue({
 
         //Vue 对象控制的 div
         el: '#app_division',
 
-        data: {
-            msg: 'Hello World!',
-            author: 'XuanhuaSu 2019/9/21'
-        },
-        methods: {}
+        data: {},
+        methods: {},
+        router
     });
 </script>
 </body>
