@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>16-1.watch_监听路由地址的改变</title>
+
+    <script src="../lib/vue.js"></script>
+    <script src="../lib/vue-router.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <router-link to="/login">登录</router-link>
+    <router-link to="/register">注册</router-link>
+    <router-view></router-view>
+</div>
+
+<script>
+    var login = {
+        template: '<h3>登录组件</h3>'
+    };
+    var register = {
+        template: '<h3>注册组件</h3>'
+    };
+    var routerObj = new VueRouter({
+        routes: [
+            //设置默认（强制）展示的路由对象
+            {
+                path: '/',
+                //方式一（不友好）
+                // component: login, //默认组件
+                //方式二 (推荐)
+                redirect: '/login'
+            },
+            //普通路由配置对象
+            {
+                // 配置/绑定对象 Key ，也叫监听的链接
+                path: '/login',
+                //  对应该 key 的 组件模板对象
+                component: login
+            },
+            {
+                path: '/register',
+                component: register
+            }
+        ]
+    });
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {},
+        methods: {},
+        router: routerObj,
+        //可用于监听非DOM 元素的数据改变
+        watch: {
+            //监听 route 对象数据的变化
+            '$route.path': function (newVal, oldVal) {
+                console.log('旧：' + oldVal, '新：' + newVal);
+                if (newVal == '/login') {
+                    console.log('欢迎进入登录页面');
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>16.案例-使用keyup事件_监听文本框</title>
+
+    <script src="../lib/vue.js"></script>
+    <style>
+        html, body {
+            margin: 5px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+<div id="app_division">
+    <h1>{{ msg }}</h1>
+    <h4>{{ author }}</h4>
+    <!--  使用keyup 监听文本数据变化  -->
+    <input type="text" v-model:value="firstname" v-on:keyup="getFullName">+
+    <input type="text" v-model:value="lastname" v-on:keyup="getFullName">=
+    <input type="text" v-model:value="fullname">
+    <br>
+    <!--  使用watch 监听文本数据变化  -->
+    <input type="text" v-model:value="firstname_watch">+
+    <input type="text" v-model:value="lastname_watch">=
+    <input type="text" v-model:value="fullname_watch">
+</div>
+
+<script>
+    var vm = new Vue({
+
+        //Vue 对象控制的 div
+        el: '#app_division',
+
+        data: {
+            msg: 'Hello World!',
+            author: 'XuanhuaSu 2019/9/23',
+            firstname: '',
+            lastname: '',
+            fullname: '',
+            firstname_watch: '',
+            lastname_watch: '',
+            fullname_watch: ''
+        },
+        methods: {
+            <!--  使用keyup 监听文本数据变化  -->
+            getFullName() {
+                this.fullname = this.firstname + '-' + this.lastname
+            }
+        },
+        //使用watch 监听 data 中指定数据的变化，触发watch中对应的 function 处理函数
+        watch: {
+            //方式一
+            //如果 firstname_watch 属性发生改变，触发该 function
+            //注意：如果属性名 中存在 "-" 符号，属性名必须加单引号 ：'firstname-watch'，否则随意。
+            firstname_watch: function () {
+                console.log('firstname_watch发生变化', this.firstname_watch);
+                this.fullname_watch = this.firstname_watch + '-' + this.lastname_watch
+            },
+            //方式二
+            lastname_watch: function (newVal, oldVal) {//newVal、oldVal 不用可省
+                console.log('firstname_watch发生变化', newVal);
+                this.fullname_watch = this.firstname_watch + '-' + newVal
+            }
+        }
+    });
+</script>
+</body>
+</html>
