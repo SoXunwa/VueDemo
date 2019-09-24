@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:v-model="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>16.computed-计算属性的使用和3个特点</title>
+    <title>17.computed-计算属性的使用和3个特点</title>
 
-    <script src="../lib"></script>
+    <script src="../lib/vue.js"></script>
     <style>
         html, body {
             margin: 5px;
@@ -20,6 +20,13 @@
 <div id="app_division">
     <h1>{{ msg }}</h1>
     <h4>{{ author }}</h4>
+    <input type="text" v-model:value="firstname">+
+    <input type="text" v-model:value="lastname">=
+    <!--  第一次调用 fullname 计算属性，该属性对应的方法执行一次 -->
+    <input type="text" v-model:value="fullname">
+    <!--  第二次调用 fullname 计算属性，该属性对应的方法不会执行，直接引用该属性对应的值，
+    除非 firstname / lastname 数据有变化-->
+    <h6>{{fullname}}</h6>
 </div>
 
 <script>
@@ -30,61 +37,22 @@
 
         data: {
             msg: 'Hello World!',
-            author: 'XuanhuaSu 2019/9/23'
+            author: 'XuanhuaSu 2019/9/23',
+            firstname: '',
+            lastname: '',
+            // fullname: ''
         },
         methods: {},
-        //定义实例内部私有组件
-        //私有组件中 默认无法访问 vue 实例中（父组件）的 data 和 methods
-        components: {},
-        //定义私有过滤器对象
-        filters: {},
-        //自定义私有指令
-        directives: {},
-        //对象初始化阶段，对象初始化的四个事件
-        //1.创建 Vue 实例对象之前执行
-        //实例对象之前执行的，data methods 还没初始化
-        beforeCreate() {
-
-        },
-        //2.Vue 实例对象之后执行
-        //data 和 methods 在 beforeCreate()执行之后进行了初始化。
-        created() {
-
-        },
-        //3.挂载前执行
-        //模板在内存中编辑完成了，但是还没有把模板 渲染到浏览器页面
-        beforeMount() {
-
-        },
-        //4.挂在之后执行
-        //对象初始化完毕
-        //把内存中的模板 渲染到浏览器页面
-        mounted() {
-
-        },
-        //对象运行阶段，对象运行中的事件。
-        //当 data 中的数据更新了，渲染到页面前，执行以下方法
-        //数据被更新了，只是还没渲染要页面
-        beforeUpdate() {
-
-        },
-        //当 data 中的数据更新了，并渲染到页面之后，执行以下方法
-        updated() {
-
-        },
-        //对象销毁阶段，对象销毁时的事件
-        //当用户关闭页面时，进入对象销毁阶段
-        //对象销毁前运行
-        //当执行该方式时，
-        //实例对象中的data 、methods 、过滤器、指令等等，都处于可用状态，还没真正执行销毁。
-        beforeDestroy() {
-
-        },
-        //对象销毁之后运行
-        //执行到该方法时，对象中的所有组件都已经被完全销毁了，
-        //实例对象中的data 、methods 、过滤器、指令等等，都不可用。
-        destroyed() {
-
+        // 在 computed 中可以定义一些属性，这些属性，叫做【计算属性】，用于计算属性的。
+        // 本质 是一个必须有返回值的方法，与 watch 写法相似。
+        // 只要计算属性 内部引用的任何变量 发生变化，该计算属性将会立即重新计算。
+        // 计算结果将会被缓存，方便其他方法调用，直至下次重新计算。
+        // 使用方法：把方法名称当作 普通data属性 使用（不能加小括号引用）。
+        computed: {
+            'fullname': function () {
+                console.log("计算属性 fullname 被调用了 1 次");
+                return this.firstname + '-' + this.lastname;
+            }
         }
     });
 </script>
