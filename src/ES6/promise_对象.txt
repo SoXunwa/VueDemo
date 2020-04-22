@@ -1,0 +1,42 @@
+Promise 对象：
+    代表未来某个将要发生的事件（通常是一个异步操作）；
+    有Promise 对象，可以将异步操作以同步的流程表达出来，避免层层嵌套的回调函数（回调地狱）
+    Promise 是一个构造函数，用来生成 Promise 实例。
+
+// 创建 Promise 对象
+    let promise = new Promise ((resolve,reject)=>{
+        //初始化，pending状态
+        console.log(111);
+        //Promise 通常的作用是执行异步操作，比如ajax
+        //设置一个定时器（模拟异步任务）
+        setTimeout(()=>{
+            console.log('333');
+            if(true){
+                //如果异步任务执行成功
+                //使用 resolve()返回结果，并会自动修改promise的状态为 fullfilled(成功)
+                resolve('成功');
+            }else{
+                //如果异步任务执行失败
+                //使用 resolve()返回结果，并会自动修改promise的状态为 rejected(失败的状态)
+                reject('失败');
+            }
+        },2000)
+    })
+    console.log(222);
+    //前面console 执行顺序：111 222 333
+
+    promise.then(res=>{
+        //如果 promise 里面的逻辑执行成功，调用了 resolve(返回值)，
+        //会自动调用该方法
+        console.log(res)
+    },fail=>{
+        //如果 promise 里面的逻辑执行失败，调用了 reject(返回值)
+        //会自动调用该方法
+        console.log(fail)
+    }).catch(err=>{
+        //监听promise 异常，当promise 对象里的代码执行过程中发生异常，则执行该方法
+    })
+
+    //为什么说 Promise 对象可以将异步操作以同步的流程表达，并执行出来呢？
+    //因为在从 创建promise对象，并执行对象内部代码，到获取promise 对象结果，这一流程是同步执行的（顺序执行），
+    //比如: new Promise ((resolve,reject)=>{1111}).then(res=>{2222},fail=>{222}).catch(err=>{222})，从该代码可以看出任务是顺序执行的。
