@@ -1,0 +1,23 @@
+对象的解构赋值
+
+意思：
+    从对象 或 数组中 提取数据，并赋值（类似遍历）给（多个）变量
+
+对象的结构赋值：
+    //要求：属性名相同，否则返回 undefined，可取任意属性
+    let {name,age} = {name:'tom',age:12,id:1234556,type:11111,display:true};
+数组的解构赋值：
+    //要求：属性名 任意，根据数组下标按顺序进行赋值，对不想取值的下标，使用“ , ”逗号隔开
+    let [a,b] = [1,'suxuanhua',true];
+    let [,,,a,b,,d,e,f] = [2,4,5,0,1,'suxuanhua',true,1,5,7];
+
+用途：
+    给多个形参赋值
+    如：
+    function foo (obj){
+        console.log(obj.name,obj.age);
+    }
+    //使用结构赋值
+    function foo ({name,age}}){
+        console.log(name,age);
+    }

@@ -1,0 +1,24 @@
+形参默认值
+
+//未使用形参默认值
+function point(x,y){
+    //this 代表当前对象 point 本身
+    this.x=x;
+    this.y=y;
+}
+let point = new point(23,55);
+//如果new 对象时，传递参数，则输出如下：
+console.log(point); //{x:23,y:55}
+//如果不传递参数，则输出 {x:undefined,y:undefined}
+
+
+
+//使用形参默认值
+function point(x=0,y=0){
+    //this 代表当前对象 point 本身
+    this.x=x;
+    this.y=y;
+}
+let point = new point();//不传递参数，输出 {x:0,y:0}
+let point = new point(22,555);//传递参数，输出 {x:22,y:555}
+

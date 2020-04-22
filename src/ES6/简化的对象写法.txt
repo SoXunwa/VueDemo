@@ -1,0 +1,20 @@
+简化的对象写法
+
+let username = 'suxuanhua';
+let age = 18;
+//简化前
+let parson = {
+    username: username,
+    age: age,
+    getName: function(){
+        return this.username;
+    }
+}
+//简化后
+let parson ={
+    username,
+    age,
+    getName(){
+        return this.username;
+    }
+}

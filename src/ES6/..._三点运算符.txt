@@ -1,0 +1,25 @@
+... 三点/点点点运算符
+
+用途：rest（可变，不确定参数个数）参数
+     与 java 可变参数相同
+
+作为参数，它是一个真数组类型：
+    function foo(... values){
+
+        //values 是一个数组，可以通过js 数组方法去遍历
+        values.forEach(item=> console.log(item));
+    }
+    //三点运算符只能放在参数最后占位
+    function bar(name,age, ... values){
+        values.forEach(item=> console.log(item));
+    }
+    bar(1,3,4,5,6,7,0);
+    //name ==1，age ==3，values==[4,5,6,7,0];
+
+
+作为元素：
+    let arr = [1,6];
+    let arr2 = [2,3,5,8,8];
+    let arr3 = [1, ...arr2,8,6,6,7,0];
+
+    console.log(arr3);
