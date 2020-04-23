@@ -1,0 +1,14 @@
+//Symbol
+
+简介：Symbol 是 ES6 新添加的原始数据类型
+JS 六大基础数据类型：Object number string boolean null undefined.
+
+特点：
+    1.Symbol 属性对应的值是唯一的，就像有唯一id一样，就算看上去一样，计算对比也是返回false（解决命名重复冲突问题）.
+    2.Symbol 的值不能与其他数据进行运算（包括字符串拼接）.
+    3.for...in，for...of 遍历时不会遍历Symbol 属性.
+
+使用：
+    //创建 Symbol 属性值
+    //注意：Symbol 是一个构造函数，不是对象。
+    let symbol = Symbol();
