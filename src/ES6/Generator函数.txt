@@ -1,0 +1,35 @@
+//Generator 函数
+
+解释：
+    1.ES6提供的解决异步编程的方案之一。
+    2.Generator 函数是一个状态机，内部封装了不同状态的数据。
+    3.用来生成迭代器对象。
+    4.可暂停函数（惰性求值），yield暂停，next启动。每次返回的是yield（暂停）后的表达式结果。
+
+特点：
+    1.在function后面追加“*” 号。
+    2.内部用yield 表达式来定义不同的状态:
+        例如：function* generatorExample(){
+                 let result = yield 'hello';//状态值为hello；
+                 yield 'generator';//状态值为generator
+             }
+    3.generator 函数返回的是指针对象（iterator），不会执行函数内部逻辑。
+    4.调用next()，函数内部逻辑开始执行，遇到yield表达式停止，返回{value:yield的表达式结果/undefined,done:是否迭代完成}。
+    5.再次调用next()，从上次暂停从开始继续执行，直到结束。
+    6.yield语句返回值默认为undefined，当调用next()时，可传入参数，作为执行下一逻辑代码的参数。
+
+代码示例：
+    function* myGenerator(){
+        console.log('开始执行...');
+        yield 'hello';//可放置异步执行的代码
+        let result =  yield 'hello';//result 用于接收，next()传进来的参数，不是yield 后的代码执行结果，默认值undefined。
+        console.log('执行后再次执行...');
+        yield 'generator';
+        console.log('执行完成...');
+        return '执行完成后，要返回的结果';//如果没有写，则返回undefined;
+    }
+    let MG = myGenerator();//返回指针对象，并未执行函数内部代码
+    let res =  MG.next();//开始执行，返回的是一个指针对象，如果遇到 yield 语句，就暂停执行函数。（如果yield后面的是表达式，就返回表达式执行后的结果再暂停；如果是逻辑代码，代码执行完后再暂停）；
+    let result = MG.next();//暂停后继续执行。
+    let result111 = MG.next('aaaaaaa');//为这次执行传递参数，作为执行下一逻辑代码的参数。
+    let result222 = MG.next();//暂停后继续执行。

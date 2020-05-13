@@ -4,11 +4,22 @@
 JS 六大基础数据类型：Object number string boolean null undefined.
 
 特点：
-    1.Symbol 属性对应的值是唯一的，就像有唯一id一样，就算看上去一样，计算对比也是返回false（解决命名重复冲突问题）.
+    1.Symbol 属性值是唯一的，就像有唯一id一样，就算看上去一样，计算对比也是返回false（解决命名重复冲突问题）.
     2.Symbol 的值不能与其他数据进行运算（包括字符串拼接）.
     3.for...in，for...of 遍历时不会遍历Symbol 属性.
+    4.可创建跨文件，甚至跨域（每个都有它自己的全局作用域）可用的symbol
 
+用处：
+    1.作为对象的属性（给对象设置Symbol 属性，通过Object.getOwnPropertySymbols() 获取Symbol 属性），用于描述当前对象的作用。
 使用：
     //创建 Symbol 属性值
-    //注意：Symbol 是一个构造函数，不是对象。
+    //注意：Symbol 是一个构造函数，不是对象，不能通过new Symbol()来创建Symbol属性值。
+    //注意：每次通过Symbol()返回symbol类型的值，都是唯一的，尽管肉眼看上去是唯一的。
     let symbol = Symbol();
+    // Symbol()支持传入参数，用于对当前的symbol进行描述，方便肉眼辨别
+    //let symbol = Symbol('aaaaa');
+
+    let obj = {username:'kobe',age:30};
+    //Symbol 用处1：作为对象的属性
+    //通过属性选择器（对象[属性] ）给对象Symbol属性赋值
+    obj[symbol] = 'hahahaha...';

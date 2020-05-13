@@ -1,0 +1,64 @@
+//Symbol.iterator(迭代器) 接口机制
+
+解释：iterator 是一种接口机制，为不同的数据结构提供统一的访问机制
+作用：
+    1.为各种数据结构，提供一个统一的访问接口（类似循环，为了获取里面的全部数据）。
+    2.可以使得数据结构的成员能够按某种次序排序。
+    3.iterator 接口主要供for...of（ES6新增）使用（目标对象存在iterator接口，才能被 for...of 遍历，ES6已经默认在部分数据类型上实现（数组，字符串，argument，set容器，map容器））。
+
+工作原理：
+    1.创建一个指针对象（迭代器对象），指向数据结构的起始位置。
+    2.第一次使用，先调用next()（因为指针默认在-1的位置），调用next()将指针移到0的位置。
+    3.不断调用next()移动指针，获取数组后面的数据，直到指向最后一个成员。
+    4.每次调用 next()，返回的是一个包含value和done的对象：{value:当前位置成员的值,done:布尔值，数据是否迭代结束}。
+    5.当遍历结束的时，返回的对象是 {value:undefined（因为最后没有值）,done:true（迭代完成）};
+
+代码原理，该原理（Iterator接口）ES6已经默认在部分数据类型上实现（数组，字符串，argument，set容器，map容器）：
+    //模拟Iterator接口（迭代器对象）
+    function myIterator (arr){
+        //记录指针位置
+        let nextIndex = 0;
+        //返回一个迭代器指针对象
+        return {
+            //对象中包含next()方法
+            next: function(){
+                return nextIndex < arr.length? {
+                    //nextIndex++ ：使用nextIndex的值后再自增1
+                    value:arr[nextIndex++],
+                    done:false
+                }:{value:undefined,done:true}
+            }
+        }
+    }
+
+    //使用模拟的迭代器迭代数据
+    let arr =[1,3,4];
+    let iterator = myIterator(arr);
+    //指针随着 next() 的调用，遍历了arr 数组
+    console.log(iterator.next());
+    console.log(iterator.next());
+    console.log(iterator.next());
+    console.log(iterator.next());
+
+//在指定对象内部部署 iterator 接口，用于支持 for...of 遍历
+const obj = {
+  '0': '我是001',
+  '1': '我是002',
+  '2': '我是003',
+  [ Symbol.iterator ]: function() {
+    const self = this;//当前对象，此时对象中的属性，像保存在数组中一样，可以通过角标去获取
+    let index = 0;
+    return {
+      // 其实比较简单，迭代器返回格式都是统一的，内部自己取值就阔以了
+      next() {
+        if ( self[ index ] ) {
+          return { value: self[ index++ ], done: false }
+        } else {
+         return { value: undefined, done: true }
+        }
+      }
+    }
+  }
+}
+
+console.log(...obj)

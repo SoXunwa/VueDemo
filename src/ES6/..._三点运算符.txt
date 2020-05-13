@@ -19,6 +19,7 @@
 作为元素：
     let arr = [1,6];
     let arr2 = [2,3,5,8,8];
+    //可合并数组
     let arr3 = [1, ...arr2,8,6,6,7,0];
 
     console.log(arr3);
