@@ -1,0 +1,84 @@
+class 类（源自ES6）
+
+//ES 中，不存在方法重载，但是可以自己实现
+
+作用：
+    1.通过class 的定义，实现类和类的继承
+    2.在类中，通过constructor 定义构造方法
+    3.通过 new 来创建类的实例
+    4.通过 extends 来实现类的继承
+    5.通过super 调用父类的构造方法
+    6.重写从父类中继承的一般方法
+
+ES5 定义类的方式：
+    //创建
+    function Person(name,age){
+        this.name = name;
+        this.age = age;
+    }
+    //使用
+    let person new Person('kobe',30);
+    console.log(person);
+    //为什么函数可以生成实例对象，因为是通过constructor 方法生成的。
+
+ES6 定义类的方式：
+    //创建
+    class Person{
+        //类的实例属性（ES7才支持）
+    	myProp = 42;
+        //类的静态属性（ES7才支持），类名.属性调用
+    	static prop = 66;
+
+        //类的构造方法
+        constructor(name,age){
+            this.name = name;
+            this.age = age;
+        }
+        //类的普通方法
+        showName(){
+            console.log('父类的showName 被调用');
+            console.log(this.name,this.age);
+        }
+        //静态方法（类名调用）
+        //为什么使用静态方法：阻止方法被new实例继承，类的内部相当于实例的原型，所有在类中直接定义的方法相当于在原型上定义方法，
+        //都会被类的实例继承，但是使用static静态方法定义的不会被实例继承，而且可以被实例直接应用Foo.classMethod()，
+        //此时写成new Foo.classMethod()会提示不存在此方法
+        //注意：静态方法中this指向：this指向类而不是类的实例
+        static sayHello(){
+            console.log('hello');
+            return 'hello';
+        }
+    }
+    //使用
+    let person = new Person('kobe',30);
+    console.log(person);
+    //调用普通方法
+    person.showName();
+    //调用普通属性
+    console.log(person.myProp);
+    //调用静态方法
+    Person.sayHello();
+    //调用静态属性
+    console.log(Person.prop);
+
+继承：
+    class son extends Person{
+        constructor(name,age,salary){
+            super(name,age);//调用父类的构造方法
+            this.salary  = salary;
+        }
+        //重写父类的方法
+        showName(){
+            console.log('子类重写的showName 被调用');
+            console.log(this.name,this.age,this.salary);
+        }
+        //重写父类静态方法
+        static sayHello(){
+            //通过 super 调用父类方法静态方法
+            console.log(super.sayHello()+'in son class.');
+            return super.sayHello()+'in son class.'
+        }
+    }
+    let p1 = new Person('suxuanhua',18,100000);
+    console.log(p1);
+    p1.showName();

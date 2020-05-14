@@ -1,0 +1,35 @@
+//需求：
+    1.发送ajax 请求获取新闻内容
+    2.新闻内容获取成功后，再次发送请求，获取该新闻的对应的评论
+    3.新闻内容获取失败则不需要再次发送请求。
+
+function getNews(url){
+
+    //执行步骤4，调用ajax 发送请求（真正的请求）
+    $.get(url,function (data)){
+        console.log(data);
+        let url  = 'https://localhost:3000/news?id=3xxxxx&pinglun';
+
+        //执行步骤5，请求成功后，继续执行Generator函数内yield 逻辑代码，获取新闻评论。
+        //注意：因为SX是全局变量，处于当前代码作用域之外，所以能在这里直接调用。
+        //将 url 作为参数，传递到Generator函数内，用于后面的逻辑代码。
+        SX.next(url);
+    }
+}
+
+//创建 Generator 函数，使异步请求同步化执行。
+function* sendXml(){
+
+    //执行步骤3，调用二次封装的方法发送请求获取新闻内容，
+    //执行成功后，接收来自步骤5的参数。
+    let url =  yield getNews('https://localhost:3000/news?id=3xxxxx');
+    //发送请求获取该新闻对应的评论
+    yield getNews(url);
+}
+
+
+//执行步骤1，调用Generator 返回函数指针对象，并未执行函数内部代码
+let SX = sendXml();
+
+//执行步骤2，开始执行，获取新闻内容
+SX.next();

@@ -1,0 +1,51 @@
+//async 函数 （源自ES7）
+
+概念：（真正意义上）解决异步回调的问题，同步流程表达异步操作。
+本质：
+     Async 是 Generator 的一个语法糖（语法糖：在原有的基础上二次封装，使原有的功能，通过二次封装，使其用起来更方便，看起来更直观）。
+     async 对应的是 * 。
+     await 对应的是 yield 。
+     async/await 自动进行了 Generator 的流程控制。
+
+语法：async function foo(){
+        await 异步操作;
+        await 异步操作;
+     }
+
+特点：
+    1.不要像Generator 那样去调用next()，如果遇到await（等同于yield），就等待当前的异步操作执行完成后，才继续执行。
+    2.返回的总是Promise对象，可以用then方法进行下一步操作。
+    3.async 取代generator 函数的星号*,await 取代 yield。
+    4.语意更为明确，使用更简单。
+
+async 基本使用
+
+    async function foo(){
+        return new Promise((resolve,reject)=>{
+            console.log('开始执行异步操作');
+            //模拟异步操作
+            setTimeout(function (){
+                resolve('run successful.');//执行成功
+            },2000);
+
+            //简便写法，因为setTimeout(函数,时长)，而resolve('run successful.') 本事就是一个函数调用。
+            //setTimeout(resolve('run successful.'),2000);
+        });
+    }
+
+    async function test(){
+        console.log('开始执行',new Date().toTimeString());
+        await foo();
+        console.log('执行完成',new Date().toTimeString());
+    }
+
+async 返回值的几种情况
+
+    async function asyncReturn (){
+        let result = await Promise.resolve('promise');//简写，新建一个Promise，直接并改成 成功状态，并返回值'promise'。
+        console.log(result); //Promise.resolve()，没有返回值，则是undefined，否则说就是 Promise.resolve()返回的值。
+
+        result = await Promise.reject('失败了。。。。');//同上，失败的简写
+        console.log(result);//直接报错，并附带Promise.reject() 中的信息
+
+    }
