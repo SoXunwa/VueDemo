@@ -82,3 +82,7 @@ ES6 定义类的方式：
     let p1 = new Person('suxuanhua',18,100000);
     console.log(p1);
     p1.showName();
+	
+	
+
+导出类： https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export
