@@ -1,0 +1,8 @@
+//package.json
+  "scripts": {
+    //--open 自动打开浏览器 --port 80 指定端口号运行 --contentBase src 指定运行根路径为 src
+    "dev": "webpack-dev-server --open --inline --progress --config build/webpack.dev.conf.js",
+    "start": "npm run dev",
+    "lint": "eslint --ext .js,.vue src",
+    "build": "node build/build.js"
+  },
