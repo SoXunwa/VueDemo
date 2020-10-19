@@ -6,7 +6,7 @@ import Vue from "../node_modules/vue/dist/vue.js";
 
 //方法二
 webpack.config.js
-modules.exports= {
+module.exports= {
     ...
     // 新增属性
     resolve:{
