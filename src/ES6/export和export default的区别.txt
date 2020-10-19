@@ -1,0 +1,29 @@
+export default：
+    // 向外暴露接口，一个js 文件中，只允许存在一个。
+    // 方式一
+    export default = {
+        name:"suxuanhua",
+        age:18
+    }
+    // 方式二
+    const user = {
+        name:"suxuanhua",
+        age:18
+    }
+    export default user;
+
+
+export ：
+    //向外暴露接口
+    const user = "suxuanhua";
+    export user;
+
+    function show(){
+        console.log("xx")
+    }
+
+    export show;
+    更多详情：https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/export
+
+
+// export default 和 export 可同时存在；
