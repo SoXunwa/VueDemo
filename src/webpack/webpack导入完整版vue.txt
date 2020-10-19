@@ -1,0 +1,17 @@
+webpack 引用的 vue 与 普通网页引用的vue 不同，引用的是阉割版的vue（vue.runtime.common.js），功能不全。
+如果想要在 webpack 项目中引用完整版的 vue 可以通过以下两种方式引用：
+//方法一，直接引用
+main.js：
+import Vue from "../node_modules/vue/dist/vue.js";
+
+//方法二
+webpack.config.js
+modules.exports= {
+    ...
+    // 新增属性
+    resolve:{
+        alias:{
+            "vue$":"vue/dist/vue.js"
+        }
+    }
+}
