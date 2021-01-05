@@ -44,6 +44,8 @@
                 getElement() {
                     //js 原生操作DOM
                     console.log(document.getElementById('msg_text').innerText);
+
+                    // Vue 支持的操作，注意：如果带有 ref属性的节点，存在 v-if，会导致获取的节点信息为 undefined，因为该节点还不存在
                     //this.$refs.author_ref 获取该DOM 元素对象的引用
                     console.log(this.$refs.author_ref.innerText);
                     //获取组件的引用

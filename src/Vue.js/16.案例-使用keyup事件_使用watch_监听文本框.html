@@ -57,7 +57,7 @@
         watch: {
             //方式一
             //如果 firstname_watch 属性发生改变，触发该 function
-            //注意：如果属性名 中存在 "-" 符号，属性名必须加单引号 ：'firstname-watch'，否则随意。
+            //注意：如果属性名 中存在 "-" / "." 符号，属性名必须加单/双引号 ：'firstname-watch'，否则随意。
             firstname_watch: function () {
                 console.log('firstname_watch发生变化', this.firstname_watch);
                 this.fullname_watch = this.firstname_watch + '-' + this.lastname_watch
