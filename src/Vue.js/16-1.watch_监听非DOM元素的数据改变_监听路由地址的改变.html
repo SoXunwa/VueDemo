@@ -70,6 +70,15 @@
                 if (newVal == '/login') {
                     console.log('欢迎进入登录页面');
                 }
+            },
+            // 深度监听一个对象
+            "$root.scrollBottomStatus": {
+                deep: true,
+                handler(newVal, oldVal) {
+                    if (this.util.notEmpty(newVal)) {
+                        this.scrollBottomStatus = newVal;
+                    }
+                }
             }
         }
     });
